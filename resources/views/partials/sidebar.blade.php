@@ -97,7 +97,7 @@
       <li class="nav-item">
         <a class="nav-link" href="/dashboard/admin/rooms" target="_blank">
           <i class="icon-paper menu-icon"></i>
-          <span class="menu-title">Rooms</span>
+          <span class="menu-title">Room</span>
         </a>
       </li>
     </ul>
