@@ -53,7 +53,7 @@
                          alt="Ocean View Room">
                     <div class="card-body">
                         <h5 class="card-title">Ocean View Room</h5>
-                        <p class="card-text">Price: Rp 1.500.000 / night</p>
+                        <p class="card-text">Price: Rp 1.50.000 / night</p>
                     </div>
                 </div>
             </div>
