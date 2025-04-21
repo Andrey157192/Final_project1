@@ -68,3 +68,12 @@ Route::get('/erro500', function () {
 //dashboard
 Route::get('/dashboard/admin',[DashboardController::class,'index']);
 Route::get('/dashboard/admin/rooms',[DashboardController::class,'rooms']);
+
+// front pages sesuai sidebar
+Route::get('/home', [DashboardController::class, 'index'])->name('home');
+Route::get('/about', [DashboardController::class, 'about'])->name('about');
+Route::get('/events', [DashboardController::class, 'events'])->name('events');
+Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
+Route::get('/reservations', [DashboardController::class, 'reservations'])->name('reservations');
+Route::get('/login', [DashboardController::class, 'login'])->name('login');
+
