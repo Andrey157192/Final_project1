@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -74,6 +75,17 @@ Route::get('/home', [DashboardController::class, 'index'])->name('home');
 Route::get('/about', [DashboardController::class, 'about'])->name('about');
 Route::get('/events', [DashboardController::class, 'events'])->name('events');
 Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
-Route::get('/reservations', [DashboardController::class, 'reservations'])->name('reservations');
-Route::get('/login', [DashboardController::class, 'login'])->name('login');
+Route::get('/rating', [DashboardController::class, 'rating'])->name('rating');
+Route::post('/rating', [DashboardController::class, 'store'])->name('rating.store');
+Route::get('/rating', [DashboardController::class, 'rating'])->name('rating');
+Route::post('/rating', [DashboardController::class, 'store'])->name('rating.store');
+
+// Data User CRUD
+Route::get('/dashboard/admin/users', [DashboardController::class, 'users'])->name('datauser.index');
+Route::post('/dashboard/admin/users', [DashboardController::class, 'storeUser'])->name('datauser.store');
+Route::get('/dashboard/admin/users/{user}/edit', [DashboardController::class, 'editUser'])->name('datauser.edit');
+Route::put('/dashboard/admin/users/{user}', [DashboardController::class, 'updateUser'])->name('datauser.update');
+Route::delete('/dashboard/admin/users/{user}', [DashboardController::class, 'destroyUser'])->name('datauser.destroy');
+
+    
 
