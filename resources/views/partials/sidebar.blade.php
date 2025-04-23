@@ -32,11 +32,12 @@
 
     {{-- Rating Menu --}}
     <li class="nav-item">
-      <a class="nav-link" href="/rating">
-        <i class="bi bi-star-fill menu-icon"></i>
-        <span class="menu-title">Rating</span>
-      </a>
-    </li>
+    <a class="nav-link" href="{{ route('admin.ulasan.index') }}">
+        <i class="bi bi-chat-left-text-fill menu-icon"></i>
+        <span class="menu-title">Ulasan</span>
+    </a>
+</li>
+
 
     {{-- Data User Menu --}}
     <li class="nav-item">

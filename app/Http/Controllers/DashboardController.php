@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Ulasan;
 class DashboardController extends Controller
 {
     // Dashboard utama
@@ -37,9 +38,19 @@ class DashboardController extends Controller
     }
 
     // Halaman Reservations
-    public function rating()
+    public function indexUlasan()
     {
-        return view('Admin.rating');
+        $ulasans = Ulasan::latest()->get();
+        return view('admin.ulasan', compact('ulasans'));
+    }
+
+    public function toggleUlasan($id)
+    {
+        $ulasan = Ulasan::findOrFail($id);
+        $ulasan->is_approved = !$ulasan->is_approved;
+        $ulasan->save();
+
+        return back()->with('success', 'Status ulasan diperbarui.');
     }
 
     // Halaman datauser

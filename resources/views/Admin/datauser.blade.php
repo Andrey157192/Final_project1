@@ -25,11 +25,14 @@
                     </select>
                 </div>
                 <div class="col-md-4 mb-2">
-                    <input type="date" name="checkin" class="form-control" required>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <input type="date" name="checkout" class="form-control" required>
-                </div>
+    <label for="checkin" class="form-label">Check-in</label>
+    <input type="date" name="checkin" id="checkin" class="form-control" required>
+</div>
+<div class="col-md-4 mb-2">
+    <label for="checkout" class="form-label">Check-out</label>
+    <input type="date" name="checkout" id="checkout" class="form-control" required>
+</div>
+
                 <div class="col-md-12 mb-2">
                     <button class="btn btn-primary btn-sm" type="submit">Tambah</button>
                 </div>

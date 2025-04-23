@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
-
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,10 +75,14 @@ Route::get('/home', [DashboardController::class, 'index'])->name('home');
 Route::get('/about', [DashboardController::class, 'about'])->name('about');
 Route::get('/events', [DashboardController::class, 'events'])->name('events');
 Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
-Route::get('/rating', [DashboardController::class, 'rating'])->name('rating');
-Route::post('/rating', [DashboardController::class, 'store'])->name('rating.store');
-Route::get('/rating', [DashboardController::class, 'rating'])->name('rating');
-Route::post('/rating', [DashboardController::class, 'store'])->name('rating.store');
+// Admin Ulasan Routes
+Route::get('/admin/ulasan', [DashboardController::class, 'indexUlasan'])->name('admin.ulasan.index');
+Route::post('/admin/ulasan/{id}/toggle', [DashboardController::class, 'toggleUlasan'])->name('admin.ulasan.toggle');
+
+
+
+
+
 
 // Data User CRUD
 Route::get('/dashboard/admin/users', [DashboardController::class, 'users'])->name('datauser.index');
