@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,23 +66,36 @@ Route::get('/erro500', function () {
 });
 
 
-
 //dashboard
-Route::get('/dashboard/admin',[DashboardController::class,'index']);
-Route::get('/dashboard/admin/rooms',[DashboardController::class,'rooms']);
+// CRUD Rooms
+Route::get('/admin/rooms', [DashboardController::class,'rooms'])->name('admin.rooms.index');
+Route::post('/admin/rooms', [DashboardController::class,'storeRoom'])->name('admin.rooms.store');
+Route::put('/admin/rooms/{room}', [DashboardController::class,'updateRoom'])->name('admin.rooms.update');
+Route::delete('/admin/rooms/{room}', [DashboardController::class,'destroyRoom'])->name('admin.rooms.destroy');
 
 // front pages sesuai sidebar
 Route::get('/home', [DashboardController::class, 'index'])->name('home');
 Route::get('/about', [DashboardController::class, 'about'])->name('about');
+
+
+// About CRUD
+Route::get ('/admin/about',            [DashboardController::class,'about'])->name('admin.about');
+Route::put ('/admin/about/settings',   [DashboardController::class,'updateAbout'])->name('admin.about.update');
+
+// Leadership CRUD
+Route::post   ('/admin/about/leadership',                [DashboardController::class,'storeLeadership'])->name('admin.leadership.store');
+Route::put    ('/admin/about/leadership/{leadership}',   [DashboardController::class,'updateLeadership'])->name('admin.leadership.update');
+Route::delete ('/admin/about/leadership/{leadership}',   [DashboardController::class,'destroyLeadership'])->name('admin.leadership.destroy');
+
+// Hotel View CRUD
+Route::post   ('/admin/about/views',                     [DashboardController::class,'storeView'])->name('admin.views.store');
+Route::delete ('/admin/about/views/{view}',              [DashboardController::class,'destroyView'])->name('admin.views.destroy');
+
 Route::get('/events', [DashboardController::class, 'events'])->name('events');
 Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
 // Admin Ulasan Routes
 Route::get('/admin/ulasan', [DashboardController::class, 'indexUlasan'])->name('admin.ulasan.index');
 Route::post('/admin/ulasan/{id}/toggle', [DashboardController::class, 'toggleUlasan'])->name('admin.ulasan.toggle');
-
-
-
-
 
 
 // Data User CRUD

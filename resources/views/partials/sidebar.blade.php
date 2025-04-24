@@ -10,7 +10,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="/dashboard/admin/rooms">
+      <a class="nav-link" href="/admin/rooms">
         <i class="bi bi-building menu-icon"></i>
         <span class="menu-title">Rooms</span>
       </a>
