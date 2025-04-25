@@ -91,7 +91,16 @@ Route::delete ('/admin/about/leadership/{leadership}',   [DashboardController::c
 Route::post   ('/admin/about/views',                     [DashboardController::class,'storeView'])->name('admin.views.store');
 Route::delete ('/admin/about/views/{view}',              [DashboardController::class,'destroyView'])->name('admin.views.destroy');
 
-Route::get('/events', [DashboardController::class, 'events'])->name('events');
+// List & form
+Route::get('/admin/events',       [DashboardController::class, 'listEvents'])->name('events.index');
+// Simpan
+Route::post('/admin/events',      [DashboardController::class, 'storeEvent'])->name('events.store');
+// Detail
+Route::get('/admin/events/{event}', [DashboardController::class, 'showEvent'])->name('events.show');
+// Update
+Route::put('/admin/events/{event}', [DashboardController::class, 'updateEvent'])->name('events.update');
+// Delete
+Route::delete('/admin/events/{event}', [DashboardController::class, 'destroyEvent'])->name('events.destroy');
 Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
 // Admin Ulasan Routes
 Route::get('/admin/ulasan', [DashboardController::class, 'indexUlasan'])->name('admin.ulasan.index');

@@ -24,11 +24,13 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="/events">
+
+     <a class="nav-link" href="{{ route('events.index') }}">
         <i class="bi bi-calendar-event-fill menu-icon"></i>
         <span class="menu-title">Events</span>
       </a>
     </li>
+
 
     {{-- Rating Menu --}}
     <li class="nav-item">

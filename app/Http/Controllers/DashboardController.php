@@ -3,166 +3,219 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Ulasan;
 use App\Models\AboutSetting;
 use App\Models\Leadership;
 use App\Models\HotelView;
 use App\Models\Room;
+use App\Models\Event;
 
 class DashboardController extends Controller
 {
-    // Dashboard utama
+    /**
+     * Tampilkan dashboard utama
+     */
     public function index()
     {
         return view('Admin.dashboard');
     }
 
-    // Halaman Rooms
-   // Tampilkan form & list rooms
-   public function rooms()
-   {
-       $rooms = Room::latest()->get();
-       return view('Admin.rooms', compact('rooms'));
-   }
-
-   // Simpan room baru
-   public function storeRoom(Request $request)
-   {
-       $data = $request->validate([
-           'title' => 'required|string|max:255',
-           'price' => 'required|numeric',
-           'description' => 'nullable|string',
-           'photo' => 'required|image',
-       ]);
-       $path = $request->file('photo')->store('rooms','public');
-       Room::create([
-           'title' => $data['title'],
-           'price' => $data['price'],
-           'description' => $data['description'],
-           'photo_path' => $path,
-       ]);
-       return back()->with('success','Room berhasil ditambahkan.');
-   }
-
-   // Update room
-   public function updateRoom(Request $request, Room $room)
-   {
-       $data = $request->validate([
-           'title' => 'required|string|max:255',
-           'price' => 'required|numeric',
-           'description' => 'nullable|string',
-           'photo' => 'nullable|image',
-       ]);
-       if($request->hasFile('photo')){
-           $room->photo_path = $request->file('photo')->store('rooms','public');
-       }
-       $room->update($data);
-       return back()->with('success','Room berhasil diperbarui.');
-   }
-
-   // Hapus room
-   public function destroyRoom(Room $room)
-   {
-       $room->delete();
-       return back()->with('success','Room berhasil dihapus.');
-   }
-
-    // Halaman About
-    // Tampilkan halaman About + data
-            public function about()
-            {
-                // ambil row pertama atau buat baru kalau belum ada
-                $settings = AboutSetting::first() ?: new AboutSetting();
-                $leaderships = Leadership::all();
-                $views = HotelView::all();
-                return view('Admin.about', compact('settings','leaderships','views'));
-            }
-
-            // Simpan / update Deskripsi, History, Contact
-            public function updateAbout(Request $r)
-            {
-                $data = $r->validate([
-                'description'=>'nullable|string',
-                'history'=>'nullable|string',
-                'phone'=>'nullable|string',
-                'email'=>'nullable|email',
-                'address'=>'nullable|string',
-                'maps_link'=>'nullable|url',
-                ]);
-
-                $settings = AboutSetting::first() ?: new AboutSetting();
-                $settings->fill($data)->save();
-
-                return back()->with('success','About Us berhasil diperbarui.');
-            }
-
-            // Tambah Leadership
-            public function storeLeadership(Request $r)
-            {
-                $data = $r->validate([
-                'name'=>'required|string',
-                'photo'=>'required|image',
-                ]);
-                $path = $r->file('photo')->store('leadership','public');
-                Leadership::create(['name'=>$data['name'],'photo_path'=>$path]);
-
-                return back()->with('success','Leadership ditambahkan.');
-            }
-
-            // Edit Leadership
-            public function updateLeadership(Request $r, Leadership $leadership)
-            {
-                $data = $r->validate([
-                'name'=>'required|string',
-                'photo'=>'nullable|image',
-                ]);
-                if($r->hasFile('photo')){
-                // hapus foto lama jika mau
-                $leadership->photo_path = $r->file('photo')->store('leadership','public');
-                }
-                $leadership->name = $data['name'];
-                $leadership->save();
-
-                return back()->with('success','Leadership diperbarui.');
-            }
-
-            // Hapus Leadership
-            public function destroyLeadership(Leadership $leadership)
-            {
-                $leadership->delete();
-                return back()->with('success','Leadership dihapus.');
-            }
-
-// Tambah Hotel View
-public function storeView(Request $r)
-{
-    $r->validate(['photo'=>'required|image']);
-    $path = $r->file('photo')->store('hotel_views','public');
-    HotelView::create(['photo_path'=>$path]);
-    return back()->with('success','Foto hotel view ditambahkan.');
-}
-
-// Hapus Hotel View
-public function destroyView(HotelView $view)
-{
-    $view->delete();
-    return back()->with('success','Foto hotel view dihapus.');
-}
-
-    // Halaman Events
-    public function events()
+    /**
+     * CRUD Rooms
+     */
+    public function rooms()
     {
-        return view('Admin.events');
+        $rooms = Room::latest()->get();
+        return view('Admin.rooms', compact('rooms'));
     }
 
-    // Halaman Contact
+    public function storeRoom(Request $request)
+    {
+        $data = $request->validate([
+            'title'       => 'required|string|max:255',
+            'price'       => 'required|numeric',
+            'description' => 'nullable|string',
+            'photo'       => 'required|image',
+        ]);
+        $path = $request->file('photo')->store('rooms', 'public');
+        Room::create([
+            'title'      => $data['title'],
+            'price'      => $data['price'],
+            'description'=> $data['description'],
+            'photo_path' => $path,
+        ]);
+        return back()->with('success', 'Room berhasil ditambahkan.');
+    }
+
+    public function updateRoom(Request $request, Room $room)
+    {
+        $data = $request->validate([
+            'title'       => 'required|string|max:255',
+            'price'       => 'required|numeric',
+            'description' => 'nullable|string',
+            'photo'       => 'nullable|image',
+        ]);
+        if ($request->hasFile('photo')) {
+            $room->photo_path = $request->file('photo')->store('rooms', 'public');
+        }
+        $room->update($data);
+        return back()->with('success', 'Room berhasil diperbarui.');
+    }
+
+    public function destroyRoom(Room $room)
+    {
+        $room->delete();
+        return back()->with('success', 'Room berhasil dihapus.');
+    }
+
+    /**
+     * CRUD About & Settings
+     */
+    public function about()
+    {
+        $settings    = AboutSetting::first() ?: new AboutSetting();
+        $leaderships = Leadership::all();
+        $views       = HotelView::all();
+        return view('Admin.about', compact('settings', 'leaderships', 'views'));
+    }
+
+    public function updateAbout(Request $request)
+    {
+        $data = $request->validate([
+            'description' => 'nullable|string',
+            'history'     => 'nullable|string',
+            'phone'       => 'nullable|string',
+            'email'       => 'nullable|email',
+            'address'     => 'nullable|string',
+            'maps_link'   => 'nullable|url',
+        ]);
+        $settings = AboutSetting::first() ?: new AboutSetting();
+        $settings->fill($data)->save();
+        return back()->with('success', 'About Us berhasil diperbarui.');
+    }
+
+    /**
+     * CRUD Leadership
+     */
+    public function storeLeadership(Request $request)
+    {
+        $data = $request->validate([
+            'name'  => 'required|string',
+            'photo' => 'required|image',
+        ]);
+        $path = $request->file('photo')->store('leadership', 'public');
+        Leadership::create(['name' => $data['name'], 'photo_path' => $path]);
+        return back()->with('success', 'Leadership ditambahkan.');
+    }
+
+    public function updateLeadership(Request $request, Leadership $leadership)
+    {
+        $data = $request->validate([
+            'name'  => 'required|string',
+            'photo' => 'nullable|image',
+        ]);
+        if ($request->hasFile('photo')) {
+            $leadership->photo_path = $request->file('photo')->store('leadership', 'public');
+        }
+        $leadership->name = $data['name'];
+        $leadership->save();
+        return back()->with('success', 'Leadership diperbarui.');
+    }
+
+    public function destroyLeadership(Leadership $leadership)
+    {
+        $leadership->delete();
+        return back()->with('success', 'Leadership dihapus.');
+    }
+
+    /**
+     * CRUD Hotel Views
+     */
+    public function storeView(Request $request)
+    {
+        $request->validate(['photo' => 'required|image']);
+        $path = $request->file('photo')->store('hotel_views', 'public');
+        HotelView::create(['photo_path' => $path]);
+        return back()->with('success', 'Foto hotel view ditambahkan.');
+    }
+
+    public function destroyView(HotelView $view)
+    {
+        $view->delete();
+        return back()->with('success', 'Foto hotel view dihapus.');
+    }
+
+    /**
+     * Halaman Events & Contact
+     */
+    // Menampilkan daftar event + form tambah
+public function listEvents()
+{
+    $events = Event::latest()->get();
+    return view('Admin.events', compact('events'));
+}
+
+// Simpan event baru
+public function storeEvent(Request $request)
+{
+    $data = $request->validate([
+        'title'       => 'required|string|max:255',
+        'description' => 'required|string',
+        'start_date'  => 'required|date',
+        'end_date'    => 'required|date|after_or_equal:start_date',
+        'image'       => 'required|image',
+    ]);
+
+    $path = $request->file('image')->store('events','public');
+    $data['image_path'] = $path;
+
+    Event::create($data);
+    return back()->with('success', 'Event berhasil ditambahkan.');
+}
+
+// Tampilkan halaman detail event
+public function showEvent(Event $event)
+{
+    return view('Admin.event-detail', compact('event'));
+}
+
+// Update event
+public function updateEvent(Request $request, Event $event)
+{
+    $data = $request->validate([
+        'title'       => 'required|string|max:255',
+        'description' => 'required|string',
+        'start_date'  => 'required|date',
+        'end_date'    => 'required|date|after_or_equal:start_date',
+        'image'       => 'nullable|image',
+    ]);
+
+    if($request->hasFile('image')){
+        $event->image_path = $request->file('image')->store('events','public');
+    }
+
+    $event->update($data);
+    return back()->with('success', 'Event berhasil diperbarui.');
+}
+
+// Hapus event
+public function destroyEvent(Event $event)
+{
+    $event->delete();
+    return back()->with('success', 'Event berhasil dihapus.');
+}
+
+
     public function contact()
     {
         return view('Admin.contact');
     }
 
-    // Halaman Reservations
+    /**
+     * CRUD Ulasan
+     */
     public function indexUlasan()
     {
         $ulasans = Ulasan::latest()->get();
@@ -174,64 +227,63 @@ public function destroyView(HotelView $view)
         $ulasan = Ulasan::findOrFail($id);
         $ulasan->is_approved = !$ulasan->is_approved;
         $ulasan->save();
-
         return back()->with('success', 'Status ulasan diperbarui.');
     }
 
-    // Halaman datauser
-    
-    public function users() {
+    /**
+     * CRUD Data User
+     */
+    public function users()
+    {
         $users = User::all();
         return view('Admin.datauser', compact('users'));
     }
-    
 
-    /** Simpan user baru */
     public function storeUser(Request $request)
     {
-        $request->validate([
-            'name'     => 'required|string|max:255',
-            'nik'      => 'required|string|max:20',
-            'address'  => 'required|string',
-            'status'   => 'required|in:Menikah,Belum Menikah',
-            'checkin'  => 'required|date',
-            'checkout' => 'required|date|after_or_equal:checkin',
+        // Validasi custom:
+        // - name hanya huruf/spasi
+        // - nik tepat 16 digit angka
+        // - address hanya huruf/spasi
+        $validated = $request->validate([
+            'name'     => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+            'nik'      => ['required', 'digits:16'],
+            'address'  => ['required', 'regex:/^[\pL\s]+$/u'],
+            'status'   => ['required', 'in:Menikah,Belum Menikah'],
+            'checkin'  => ['required', 'date'],
+            'checkout' => ['required', 'date', 'after_or_equal:checkin'],
+        ], [
+            'name.regex'    => 'Nama hanya boleh berisi huruf dan spasi.',
+            'nik.digits'    => 'NIK harus terdiri dari tepat 16 digit angka.',
+            'address.regex' => 'Alamat hanya boleh berisi huruf dan spasi.',
         ]);
 
-        User::create([
-            'name'     => $request->name,
-            'nik'      => $request->nik,
-            'address'  => $request->address,
-            'status'   => $request->status,
-            'checkin'  => $request->checkin,
-            'checkout' => $request->checkout,
-        ]);
-        
-
-        return redirect()->route('datauser.index')
-                         ->with('success', 'Data pelanggan berhasil ditambahkan.');
-    }
-
-    /** Tampilkan form edit user */
-    public function editUser(User $user)
-    {
-        return view('Admin.editdatauser', compact('user'));
+        try {
+            User::create($validated);
+            return back()->with('success', 'Data pelanggan berhasil ditambahkan.');
+        } catch (QueryException $e) {
+            // jika entri gagal ke DB
+            return back()->with('error', 'Gagal menambahkan data pelanggan: ' . $e->getMessage());
+        }
     }
 
     /** Proses update user */
     public function updateUser(Request $request, User $user)
     {
-        $request->validate([
-            'name'     => 'required|string|max:255',
-            'nik'      => 'required|string|max:20',
-            'address'  => 'required|string',
-            'status'   => 'required|in:Menikah,Belum Menikah',
-            'checkin'  => 'required|date',
-            'checkout' => 'required|date|after_or_equal:checkin',
+        $validated = $request->validate([
+            'name'     => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+            'nik'      => ['required', 'digits:16'],
+            'address'  => ['required', 'regex:/^[\pL\s]+$/u'],
+            'status'   => ['required', 'in:Menikah,Belum Menikah'],
+            'checkin'  => ['required', 'date'],
+            'checkout' => ['required', 'date', 'after_or_equal:checkin'],
+        ], [
+            'name.regex'    => 'Nama hanya boleh berisi huruf dan spasi.',
+            'nik.digits'    => 'NIK harus terdiri dari tepat 16 digit angka.',
+            'address.regex' => 'Alamat hanya boleh berisi huruf dan spasi.',
         ]);
 
-        $user->update($request->only(['name','nik','address','status','checkin','checkout']));
-
+        $user->update($validated);
         return redirect()->route('datauser.index')
                          ->with('success', 'Data pelanggan berhasil diperbarui.');
     }
@@ -244,3 +296,4 @@ public function destroyView(HotelView $view)
                          ->with('success', 'Data pelanggan berhasil dihapus.');
     }
 }
+

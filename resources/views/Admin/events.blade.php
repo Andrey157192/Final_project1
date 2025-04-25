@@ -3,78 +3,136 @@
 @section('content')
 <div class="content-wrapper bg-light py-5">
   <div class="container">
-    <h2 class="text-center fw-bold mb-3">Upcoming Events</h2>
-    <p class="text-center text-muted mb-5">
-      Hotel Balige Beach menghadirkan berbagai acara spesial untuk menyempurnakan pengalaman menginap Anda. 
-      Nikmati momen penuh keceriaan, relaksasi, dan kelezatan kuliner yang dirancang untuk semua tamu kami.
-    </p>
 
-    <div class="row g-4">
+    {{-- Notifikasi --}}
+    @if(session('success'))
+      <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-      {{-- Event 1 --}}
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-lg rounded-4 hover-shadow">
-          <div class="overflow-hidden rounded-top-4">
-            <img src="{{ asset('assets/images/events/Beach Party.jpg') }}" 
-                 class="card-img-top" 
-                 alt="Beach Party" 
-                 style="height: 250px; object-fit: cover; transition: transform 0.4s ease;">
-          </div>
-          <div class="card-body text-center">
-            <h5 class="fw-bold">Beach Party</h5>
-            <p class="text-muted">
-              Meriahkan malam Jumat Anda dengan pesta pantai eksklusif, live music, dan api unggun yang hangat. 
-              Rasakan suasana tropis yang penuh semangat!
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {{-- Event 2 --}}
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-lg rounded-4 hover-shadow">
-          <div class="overflow-hidden rounded-top-4">
-            <img src="{{ asset('assets/images/events/Sunrise Yoga.jpg') }}" 
-                 class="card-img-top" 
-                 alt="Sunrise Yoga" 
-                 style="height: 250px; object-fit: cover; transition: transform 0.4s ease;">
-          </div>
-          <div class="card-body text-center">
-            <h5 class="fw-bold">Sunrise Yoga</h5>
-            <p class="text-muted">
-              Awali hari Anda dengan ketenangan dan energi positif di sesi yoga pagi bersama instruktur profesional di tepi pantai.
-              Tersedia setiap hari pukul 06.00, gratis untuk tamu hotel.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {{-- Event 3 --}}
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-lg rounded-4 hover-shadow">
-          <div class="overflow-hidden rounded-top-4">
-            <img src="{{ asset('assets/images/events/Seafood Dinner.jpg') }}" 
-                 class="card-img-top" 
-                 alt="Seafood Dinner" 
-                 style="height: 250px; object-fit: cover; transition: transform 0.4s ease;">
-          </div>
-          <div class="card-body text-center">
-            <h5 class="fw-bold">Seafood Dinner</h5>
-            <p class="text-muted">
-              Nikmati gala dinner spesial setiap Sabtu malam dengan sajian seafood segar pilihan dan suasana romantis di tepi laut.
-            </p>
-          </div>
-        </div>
-      </div>
-
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Kelola Events</h2>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addEventModal">
+        + Add event
+      </button>
     </div>
+
+    {{-- Modal Tambah Event --}}
+    <div class="modal fade" id="addEventModal" tabindex="-1">
+      <div class="modal-dialog">
+        <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data" class="modal-content">
+          @csrf
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah Event</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Judul Event</label>
+              <input type="text" name="title" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Deskripsi</label>
+              <textarea name="description" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col">
+                <label class="form-label">Mulai</label>
+                <input type="date" name="start_date" class="form-control" required>
+              </div>
+              <div class="col">
+                <label class="form-label">Selesai</label>
+                <input type="date" name="end_date" class="form-control" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Gambar</label>
+              <input type="file" name="image" class="form-control" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    {{-- Daftar Events --}}
+    <div class="row g-4">
+      @foreach($events as $event)
+        <div class="col-md-3">
+          <div class="card shadow-sm rounded-4">
+            <img src="{{ asset('storage/'.$event->image_path) }}"
+                 class="card-img-top rounded-top-4"
+                 style="height:180px; object-fit:cover;">
+            <div class="card-body">
+              <p class="text-muted mb-1">
+                {{ $event->start_date->format('d M, Y') }}
+                @if($event->start_date != $event->end_date)
+                  – {{ $event->end_date->format('d M, Y') }}
+                @endif
+              </p>
+              <h5 class="card-title">{{ $event->title }}</h5>
+              <div class="d-flex gap-2 mt-3">
+                <a href="{{ route('events.show', $event) }}" class="btn btn-sm btn-info">Detail</a>
+                <button data-bs-toggle="modal"
+                        data-bs-target="#editEventModal{{ $event->id }}"
+                        class="btn btn-sm btn-warning">Edit</button>
+                <form action="{{ route('events.destroy', $event) }}" method="POST" class="d-inline">
+                  @csrf @method('DELETE')
+                  <button class="btn btn-sm btn-danger"
+                          onclick="return confirm('Hapus event ini?')">
+                    Delete
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          {{-- Modal Edit Event --}}
+          <div class="modal fade" id="editEventModal{{ $event->id }}" tabindex="-1">
+            <div class="modal-dialog">
+              <form action="{{ route('events.update', $event) }}" method="POST" enctype="multipart/form-data" class="modal-content">
+                @csrf @method('PUT')
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Event</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label class="form-label">Judul Event</label>
+                    <input type="text" name="title" value="{{ $event->title }}" class="form-control" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Deskripsi</label>
+                    <textarea name="description" class="form-control" rows="3" required>{{ $event->description }}</textarea>
+                  </div>
+                  <div class="row g-3 mb-3">
+                    <div class="col">
+                      <label class="form-label">Mulai</label>
+                      <input type="date" name="start_date" value="{{ $event->start_date->toDateString() }}" class="form-control" required>
+                    </div>
+                    <div class="col">
+                      <label class="form-label">Selesai</label>
+                      <input type="date" name="end_date" value="{{ $event->end_date->toDateString() }}" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Ganti Gambar</label>
+                    <input type="file" name="image" class="form-control">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button class="btn btn-primary">Perbarui</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
   </div>
 </div>
-
-{{-- Optional Custom Style --}}
-<style>
-  .card:hover img {
-    transform: scale(1.05);
-  }
-</style>
 @endsection
