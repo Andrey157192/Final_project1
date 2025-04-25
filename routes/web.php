@@ -1,9 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-=======
-use App\Http\Controllers\ProfileController;
->>>>>>> main
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
@@ -29,7 +25,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'registerPage'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('registerpost');
 
-<<<<<<< HEAD
 //admin routes
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
@@ -51,9 +46,9 @@ Route::middleware(['auth','role:agent'])->group(function () {
 
 //user routes
 Route::middleware(['auth','role:user'])->group(function () {
-    Route::get('/user', [UserController::class, 'home']); 
+    Route::get('/user', [UserController::class, 'home']);
 
-    
+
     });
 
 
@@ -76,23 +71,6 @@ Route::get('/contact', function () {
     return view('user.pages.contact');
 });
 
-// Route::get('/reservation', function () {
-//     return view('user.pages.reservation');
-// });
-=======
-Route::get('/', function () {
-    return view('dasboard.index');
+Route::get('/reservation', function () {
+    return view('user.pages.reservation');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->middleware(['role:staff'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
->>>>>>> main
