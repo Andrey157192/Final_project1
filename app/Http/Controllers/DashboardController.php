@@ -7,30 +7,45 @@ use App\Models\DataFeed;
 
 class DashboardController extends Controller
 {
+    // Dashboard utama
     public function index()
     {
-        $dataFeed = new DataFeed();
-
-        return view('pages/dashboard/dashboard', compact('dataFeed'));
+        return view('Admin.dashboard');
     }
 
-    /**
-     * Displays the analytics screen
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function analytics()
+    // Halaman Rooms
+    public function rooms()
     {
-        return view('pages/dashboard/analytics');
+        return view('Admin.rooms');
     }
 
-    /**
-     * Displays the fintech screen
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function fintech()
+    // Halaman About
+    public function about()
     {
-        return view('pages/dashboard/fintech');
+        return view('Admin.about');
+    }
+
+    // Halaman Events
+    public function events()
+    {
+        return view('Admin.events');
+    }
+
+    // Halaman Contact
+    public function contact()
+    {
+        return view('Admin.contact');
+    }
+
+    // Halaman Reservations
+    public function reservations()
+    {
+        return view('Admin.reservations');
+    }
+
+    // Halaman Login
+    public function login()
+    {
+        return view('Admin.login');
     }
 }
