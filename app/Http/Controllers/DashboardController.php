@@ -295,5 +295,12 @@ public function destroyEvent(Event $event)
         return redirect()->route('datauser.index')
                          ->with('success', 'Data pelanggan berhasil dihapus.');
     }
+
+    public function editUser($id)
+{
+    $user = User::findOrFail($id);
+    return view('Admin.editdatauser', compact('user'));
+}
+
 }
 
