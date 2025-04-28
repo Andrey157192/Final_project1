@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
@@ -47,9 +48,9 @@ Route::middleware(['auth','role:agent'])->group(function () {
 
 //user routes
 Route::middleware(['auth','role:user'])->group(function () {
-    Route::get('/user', [UserController::class, 'home']); 
+    Route::get('/user', [UserController::class, 'home']);
 
-    
+
     });
 
 
@@ -71,15 +72,9 @@ Route::get('/events', function () {
 Route::get('/contact', function () {
     return view('user.pages.contact');
 });
-<<<<<<< HEAD
-=======
 
-// Route::get('/reservation', function () {
-//     return view('user.pages.reservation');
-// });
-=======
-Route::get('/', function () {
-    return view('dasboard.index');
+Route::get('/reservation', function () {
+    return view('user.pages.reservation');
 });
 
 Route::get('/dashboard', function () {
@@ -92,6 +87,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
->>>>>>> main
->>>>>>> b4e1cac23bd4767b5d66fefefca72c8c889187db
+
