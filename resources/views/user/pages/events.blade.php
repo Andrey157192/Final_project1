@@ -20,49 +20,56 @@
     
     <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- Theme Style -->
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     
-    <header class="site-header js-site-header">
-      <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="col-6 col-lg-4 site-logo" data-aos="fade"><a href="/">Sogo Hotel</a></div>
-          <div class="col-6 col-lg-8">
-
-
-            <div class="site-menu-toggle js-site-menu-toggle"  data-aos="fade">
-              <span></span>
-              <span></span>
-              <span></span>
+    <body>
+    
+      <header class="site-header js-site-header">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+      
+            <!-- Logo -->
+            <div class="col-6 col-lg-4 site-logo" data-aos="fade">
+              <a href="/">
+                <img src="/images/Logo.png" alt="Hotel Balige Beach" class="logo-img">
+              </a>
             </div>
-            <!-- END menu-toggle -->
-
-            <div class="site-navbar js-site-navbar">
-              <nav role="navigation">
-                <div class="container">
-                  <div class="row full-height align-items-center">
-                    <div class="col-md-6 mx-auto">
-                      <ul class="list-unstyled menu">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="rooms">Rooms</a></li>
-                        <li><a href="about">About</a></li>
-                        <li class="active"><a href="events">Events</a></li>
-                        <li><a href="contact">Contact</a></li>
-                        {{-- <li><a href="reservation">Reservation</a></li> --}}
-                        <li><a href="login">Login</a></li>
-                      </ul>
-                    </div>
+      
+            <!-- Navbar -->
+            <div class="col-6 col-lg-8">
+              
+              <!-- Menu Toggle untuk Mobile -->
+              {{-- <div class="site-menu-toggle js-site-menu-toggle" data-aos="fade">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div> --}}
+              <!-- END menu-toggle -->
+      
+              <!-- Navigasi Menu -->
+              <nav class="main-navbar">
+                <div class="container-navbar">
+                  <div class="nav-links">
+                    <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
+                    <a href="/rooms" class="nav-item"><i class="fas fa-bed"></i> Rooms</a>
+                    <a href="/about" class="nav-item"><i class="fas fa-info-circle"></i> About</a>
+                    <a href="/events" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</a>
+                    <a href="/login" class="nav-item"><i class="fas fa-user"></i> Login</a>
                   </div>
                 </div>
               </nav>
+      
             </div>
+            <!-- End Navbar -->
+      
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+    
     <!-- END head -->
 
     <section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5">
@@ -78,12 +85,23 @@
           </div>
         </div>
       </div>
+  <!-- END head -->
 
-      <a class="mouse smoothscroll" href="#next">
-        <div class="mouse-icon">
-          <span class="mouse-wheel"></span>
+    <section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5">
+      <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+          <div class="col-md-10 text-center" data-aos="fade">
+            <h1 class="heading mb-3">Events</h1>
+            <ul class="custom-breadcrumbs mb-4">
+              <li><a href="/">Home</a></li>
+              <li>&bullet;</li>
+              <li>Events</li>
+            </ul>
+          </div>
         </div>
-      </a>
+      </div>
+
+    
     </section>
     <!-- END section -->
 

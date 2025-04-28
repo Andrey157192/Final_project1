@@ -211,3 +211,72 @@
 
 
 })(jQuery);
+
+// Add this JavaScript to make the header interactive
+document.addEventListener('DOMContentLoaded', function() {
+  // Get header element
+  const header = document.querySelector('.js-site-header');
+  
+  // Add mobile menu toggle button to the DOM
+  const navbarContainer = document.querySelector('.container-navbar');
+  if (navbarContainer) {
+    // Create mobile menu toggle button with both icons
+    const mobileMenuToggle = document.createElement('button');
+    mobileMenuToggle.className = 'mobile-menu-toggle';
+    mobileMenuToggle.innerHTML = `
+      <span class="menu-icon"><i class="fas fa-bars"></i></span>
+      <span class="close-icon"><i class="fas fa-times"></i></span>
+    `;
+    mobileMenuToggle.setAttribute('aria-label', 'Toggle menu');
+    
+    // Append toggle button to navbar
+    navbarContainer.appendChild(mobileMenuToggle);
+    
+    // Get nav links container
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+      // Toggle mobile menu
+      mobileMenuToggle.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+        mobileMenuToggle.classList.toggle('active');
+        
+        // Update aria-expanded attribute for accessibility
+        const isExpanded = navLinks.classList.contains('active');
+        mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
+      });
+      
+      // Close menu when clicking on a nav link
+      const navItems = navLinks.querySelectorAll('.nav-item');
+      navItems.forEach(item => {
+        item.addEventListener('click', function() {
+          navLinks.classList.remove('active');
+          mobileMenuToggle.classList.remove('active');
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', function(event) {
+        if (!navLinks.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+          navLinks.classList.remove('active');
+          mobileMenuToggle.classList.remove('active');
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  }
+  
+  // Handle scroll effect
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 10) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+  
+  // Check scroll position on page load
+  if (window.scrollY > 10) {
+    header.classList.add('scrolled');
+  }
+});
