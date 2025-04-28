@@ -70,7 +70,3 @@ Route::get('/events', function () {
 Route::get('/contact', function () {
     return view('user.pages.contact');
 });
-
-// Route::get('/reservation', function () {
-//     return view('user.pages.reservation');
-// });
