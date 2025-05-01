@@ -69,7 +69,6 @@
                         <li><a href="about">About</a></li>
                         <li><a href="events">Events</a></li>
                         <li><a href="contact">Contact</a></li>
-                        {{-- <li><a href="reservation">Reservation</a></li> --}}
                         <li><a href="login">Login</a></li>
                       </ul>
                     </div>
@@ -188,7 +187,7 @@
         </div>
         <div class="row">
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="#" class="room">
+            <a href="room/single" class="room">
               <figure class="img-wrap">
                 <img src="images/img_1.jpg" alt="Free website template" class="img-fluid mb-3">
               </figure>
@@ -200,7 +199,7 @@
           </div>
 
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="#" class="room">
+            <a href="room/family" class="room">
               <figure class="img-wrap">
                 <img src="images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
               </figure>
@@ -212,7 +211,7 @@
           </div>
 
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="#" class="room">
+            <a href="room/presidential" class="room">
               <figure class="img-wrap">
                 <img src="images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
               </figure>

@@ -1,0 +1,82 @@
+/* room.css */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.room-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.back-button {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+
+.room-heading {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+}
+
+.room-container {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.room-card {
+  flex: 1;
+  min-width: 280px;
+}
+
+.room-img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.room-info {
+  flex: 1;
+  min-width: 280px;
+}
+
+.room-title {
+  font-size: 22px;
+  margin-top: 10px;
+}
+
+.btn-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #25D366;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-book:hover {
+  background-color: #1ebe57;
+}

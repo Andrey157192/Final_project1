@@ -87,4 +87,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/room/single', function () {
+    return view('room.single'); // Ganti 'room.single' dengan path view kamu
+});
+Route::get('/room/family', function () {
+    return view('room.family'); // Ganti 'room.double' dengan path view kamu
+});
 
+Route::get('/room/presidential', function () {
+    return view('room.presidential'); // Ganti 'room.suite' dengan path view kamu
+});
