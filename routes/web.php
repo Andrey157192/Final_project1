@@ -106,7 +106,6 @@ Route::get('/contact', [DashboardController::class, 'contact'])->name('contact')
 Route::get('/admin/ulasan', [DashboardController::class, 'indexUlasan'])->name('admin.ulasan.index');
 Route::post('/admin/ulasan/{id}/toggle', [DashboardController::class, 'toggleUlasan'])->name('admin.ulasan.toggle');
 
-
 // Data User CRUD
 Route::get('/dashboard/admin/users', [DashboardController::class, 'users'])->name('datauser.index');
 Route::post('/dashboard/admin/users', [DashboardController::class, 'storeUser'])->name('datauser.store');
@@ -116,5 +115,5 @@ Route::delete('/dashboard/admin/users/{user}', [DashboardController::class, 'des
 Route::get('/admin/datauser/export', [DashboardController::class, 'export'])->name('datauser.export');
 
 
-    
+
 
