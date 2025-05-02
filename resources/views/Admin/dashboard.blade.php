@@ -15,7 +15,7 @@
                 <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail3">Email address</label>
+                <label for="exampleInputEmail3">Email addresss</label>
                 <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
               </div>
               <div class="form-group">

@@ -11,6 +11,8 @@ use App\Models\Leadership;
 use App\Models\HotelView;
 use App\Models\Room;
 use App\Models\Event;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DataUserExport;
 
 class DashboardController extends Controller
 {
@@ -25,11 +27,19 @@ class DashboardController extends Controller
     /**
      * CRUD Rooms
      */
-    public function rooms()
-    {
-        $rooms = Room::latest()->get();
-        return view('Admin.rooms', compact('rooms'));
+    public function rooms(Request $request)
+{
+    $query = Room::query();
+
+    if ($request->has('search') && $request->search !== null) {
+        $query->where('title', 'like', '%' . $request->search . '%');
     }
+
+    $rooms = $query->latest()->get();
+
+    return view('Admin.rooms', compact('rooms'));
+}
+
 
     public function storeRoom(Request $request)
     {
@@ -300,6 +310,11 @@ public function destroyEvent(Event $event)
 {
     $user = User::findOrFail($id);
     return view('Admin.editdatauser', compact('user'));
+}
+
+public function export()
+{
+    return Excel::download(new DataUserExport, 'data_user.xlsx');
 }
 
 }
