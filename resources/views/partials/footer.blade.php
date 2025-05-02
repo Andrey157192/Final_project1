@@ -7,3 +7,6 @@
       <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span>
     </div>
   </footer>
+
+
+  
