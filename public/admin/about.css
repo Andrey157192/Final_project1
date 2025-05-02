@@ -1,0 +1,134 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f1f1f1;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 220px;
+    background-color: #eeeeff;
+    padding: 20px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+  }
+  
+  .sidebar li.active {
+    background-color: #7a5230;
+    color: white;
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    background-color: #7a5230;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Topbar */
+  .topbar {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: white;
+    color: #333;
+  }
+  
+  .topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .topbar-user img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+  }
+  
+  /* Content Area */
+  .content {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  /* Card Grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    flex: 1;
+  }
+  
+  /* Card */
+  .card {
+    background-color: #f5f1e9;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .card img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  /* Buttons */
+  .button-group button {
+    margin: 2px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .button-group .edit {
+    background-color: #e74c3c;
+  }
+  
+  .button-group .delete {
+    background-color: #2c3e50;
+  }
+  
+  .button-group .detail {
+    background-color: #3498db;
+  }
+  
+  /* History Box */
+  .history-box {
+    width: 250px;
+    background-color: #f5f1e9;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .history-box .year {
+    font-weight: bold;
+  }
+  
+  .history-box .description {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
