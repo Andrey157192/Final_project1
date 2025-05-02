@@ -8,7 +8,6 @@
   }
   .form-card {
     border-radius: 15px;
-   
     background: #fff;
   }
   .input-group-text {
@@ -36,7 +35,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    display: none; /* Hidden awal */
+    display: none;
   }
   .spinner {
     width: 3rem;
@@ -69,6 +68,12 @@
     <div class="card-body">
       <h2 class="card-title text-center mb-5">Tambah Data User</h2>
 
+      <div class="text-center mb-4">
+        <button class="btn btn-success btn-lg" id="showFormBtn">
+          <i class="bi bi-person-plus-fill"></i> Tambah User
+        </button>
+      </div>
+
       {{-- Notifikasi --}}
       @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -86,33 +91,33 @@
         </div>
       @endif
 
-      <form id="userForm" action="{{ route('datauser.store') }}" method="POST">
+      <form id="userForm" action="{{ route('datauser.store') }}" method="POST" style="display: none;">
         @csrf
         <div class="row g-3">
           <div class="col-md-4">
             <div class="card form-card p-3">
-              <label class="form-label">Nama</label>
+              <label class="form-label">Full Name</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Nama" required>
+                <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Full Name" required>
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card form-card p-3">
-              <label class="form-label">NIK</label>
+              <label class="form-label">Identity Number(KTP)</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-card-text"></i></span>
-                <input type="text" name="nik" value="{{ old('nik') }}" class="form-control" placeholder="NIK (16 digit)" required>
+                <input type="text" name="nik" value="{{ old('nik') }}" class="form-control" placeholder="Identity Number(KTP)" required>
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card form-card p-3">
-              <label class="form-label">Alamat</label>
+              <label class="form-label">Address</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-                <input type="text" name="address" value="{{ old('address') }}" class="form-control" placeholder="Alamat" required>
+                <input type="text" name="address" value="{{ old('address') }}" class="form-control" placeholder="Address" required>
               </div>
             </div>
           </div>
@@ -121,11 +126,11 @@
               <label class="form-label">Status</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-heart-fill"></i></span>
-                <select name="status" class="form-select" style="width: 80%;" required>
-                  <option value="">Pilih Status</option>
-                  <option value="Menikah" {{ old('status')=='Menikah' ? 'selected' : '' }}>Menikah</option>
-                  <option value="Belum Menikah" {{ old('status')=='Belum Menikah' ? 'selected' : '' }}>Belum Menikah</option>
-                </select>
+                <select name="status" class="form-select" required>
+                  <option value="">Select Status</option>
+                  <option value="Menikah" {{ old('status')=='Menikah' ? 'selected' : '' }}>Merried</option>
+                  <option value="Belum Menikah" {{ old('status')=='Belum Menikah' ? 'selected' : '' }}>Not Married</option>
+                </select> 
               </div>
             </div>
           </div>
@@ -160,17 +165,23 @@
   <div class="card shadow-lg mt-5">
     <div class="card-body">
       <h3 class="card-title mb-4">List Data User</h3>
+      <div class="d-flex justify-content-end mb-3">
+  <a href="{{ route('datauser.export') }}" class="btn btn-success">
+    <i class="bi bi-file-earmark-excel-fill"></i> Export Excel
+  </a>
+</div>
+
       <div class="table-responsive">
         <table class="table table-hover table-bordered">
           <thead class="table-primary">
             <tr>
-              <th>Nama</th>
-              <th>NIK</th>
-              <th>Alamat</th>
+              <th>Full Name</th>
+              <th>Identity Number(KTP)</th>
+              <th>Address</th>
               <th>Status</th>
               <th>Check-in</th>
               <th>Check-out</th>
-              <th>Aksi</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -201,13 +212,19 @@
 {{-- Bootstrap Icons --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-{{-- Script untuk loading --}}
+{{-- Script untuk loading dan toggle form --}}
 <script>
   const form = document.getElementById('userForm');
   const loadingOverlay = document.getElementById('loadingOverlay');
+  const showFormBtn = document.getElementById('showFormBtn');
 
-  form.addEventListener('submit', function() {
+  form.addEventListener('submit', function () {
     loadingOverlay.style.display = 'flex';
+  });
+
+  showFormBtn.addEventListener('click', function () {
+    form.style.display = 'block';
+    showFormBtn.style.display = 'none';
   });
 </script>
 
