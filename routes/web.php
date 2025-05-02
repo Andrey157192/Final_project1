@@ -144,6 +144,8 @@ Route::post('/dashboard/admin/users', [DashboardController::class, 'storeUser'])
 Route::get('/dashboard/admin/users/{user}/edit', [DashboardController::class, 'editUser'])->name('datauser.edit');
 Route::put('/dashboard/admin/users/{user}', [DashboardController::class, 'updateUser'])->name('datauser.update');
 Route::delete('/dashboard/admin/users/{user}', [DashboardController::class, 'destroyUser'])->name('datauser.destroy');
+Route::get('/admin/datauser/export', [DashboardController::class, 'export'])->name('datauser.export');
+
 
  
 
