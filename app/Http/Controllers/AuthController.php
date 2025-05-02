@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function loginPage(){
         return view('auth.login');
     }
-    
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -60,7 +60,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-            
+
         ]);
 
         $user = User::create([

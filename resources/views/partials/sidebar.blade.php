@@ -41,7 +41,7 @@
 </li>
 
 
-    {{-- Data User Menu --}} cfgbdfgdfgdfgsrfg
+    {{-- Data User Menu --}}  
     <li class="nav-item">
       <a class="nav-link" href="{{ route('datauser.index') }}">
         <i class="bi bi-people-fill menu-icon"></i>
