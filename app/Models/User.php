@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+ 
     use HasApiTokens, Notifiable;
 
     protected $fillable = [
@@ -16,6 +17,7 @@ class User extends Authenticatable
         'password',
 
     ];
+ 
 
     protected $hidden = [
         'password',

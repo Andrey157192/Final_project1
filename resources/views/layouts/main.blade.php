@@ -85,5 +85,9 @@
   <script src="{{ asset('assets/js/chart.js') }}"></script>
   <script src="{{ asset('assets/js/dashboard.js') }}"></script>
   <script src="{{ asset('assets/js/Chart.roundedBarCharts.js') }}"></script>
+
+  <!-- di bagian akhir sebelum </body> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
