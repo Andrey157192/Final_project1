@@ -166,9 +166,7 @@
     <div class="card-body">
       <h3 class="card-title mb-4">List Data User</h3>
       <div class="d-flex justify-content-end mb-3">
-  <a href="{{ route('datauser.export') }}" class="btn btn-success">
-    <i class="bi bi-file-earmark-excel-fill"></i> Export Excel
-  </a>
+  
 </div>
 
       <div class="table-responsive">

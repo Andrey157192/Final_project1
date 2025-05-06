@@ -13,7 +13,7 @@
   <!-- Plugin css for this page -->
   <link rel="stylesheet" href="{{ asset('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/js/select.dataTables.min.css') }}">
-  
+
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('assets/css/vertical-layout-light/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
@@ -23,12 +23,12 @@
 </head>
 <body>
   <div class="container-scroller">
-    
+
     {{-- Navbar --}}
     @include('partials.navbar')
 
     <div class="container-fluid page-body-wrapper">
-      
+
       {{-- Settings Panel --}}
       <div class="theme-setting-wrapper">
         <div id="settings-trigger"><i class="ti-settings"></i></div>

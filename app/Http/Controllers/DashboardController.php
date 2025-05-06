@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
- 
 use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Ulasan;
@@ -315,8 +314,11 @@ public function destroyEvent(Event $event)
 
 public function export()
 {
-    return Excel::download(new DataUserExport, 'data_user.xlsx');
+    // return Excel::download(new DataUserExport, 'data_user.xlsx');
 }
+public function home(){
+    return view('user.pages.index');
+  }
 
 }
 
