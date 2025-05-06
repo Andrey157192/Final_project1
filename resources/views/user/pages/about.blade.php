@@ -1,7 +1,7 @@
 @extends('user.layouts.main')
 
 @section('content')
-     
+
     <!-- Hero Section -->
     <section class="site-hero inner-page overlay" style="background-image: url('{{ asset('images/hero_4.jpg') }}')" data-stellar-background-ratio="0.5">
       <div class="container">
@@ -17,7 +17,6 @@
         </div>
       </div>
     </section>
-
     <!-- About Description & History -->
     <section class="py-5 bg-light">
       <div class="container">
