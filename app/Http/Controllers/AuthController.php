@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function loginPage(){
+    public function loginPage()
+    {
         return view('auth.login');
     }
-    
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -23,18 +23,21 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             $user = Auth::user();
 
-            if ($user->role === 'admin') {
-                return redirect('/admin/dashboard');
-            } elseif ($user->role === 'user') {
-                return redirect('/user/index');
-            } elseif ($user->role === 'resepsionis') {
-                return redirect('/resepsionis/dashboard');
-            } else {
-                return redirect('/index');
+            // ✅ Redirect jika sebelumnya ada permintaan akses sebelum login (dari middleware)
+            $redirect = session()->pull('redirect_after_login');
+            if ($redirect) {
+                return redirect($redirect);
             }
+
+            // ✅ Redirect berdasarkan role
+            return match ($user->role) {
+                'admin' => redirect('/admin/dashboard'),
+                'user' => redirect('/pages/index'),
+                'resepsionis' => redirect('/resepsionis/dashboard'),
+                default => redirect('/index'),
+            };
         }
 
         return back()->withErrors([
@@ -42,7 +45,6 @@ class AuthController extends Controller
         ])->withInput();
     }
 
-    // Fungsi Logout
     public function logout(Request $request)
     {
         Auth::logout();
@@ -53,14 +55,13 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
-    // Fungsi Register
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-            
+            'role' => 'required|in:admin,user,resepsionis',
         ]);
 
         $user = User::create([
@@ -70,11 +71,13 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Otomatis login setelah register (opsional)
         Auth::login($user);
-
-        return redirect('/login');
+        return redirect('/login'); // Atau redirect langsung sesuai role jika mau
     }
-    public function registerPage(){
+
+    public function registerPage()
+    {
         return view('auth.register');
     }
 }

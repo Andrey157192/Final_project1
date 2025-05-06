@@ -30,12 +30,30 @@
         <p><strong>Fasilitas:</strong> AC, TV, Wi-Fi, Kamar Mandi Dalam, Air Panas</p>
         <p><strong>Kapasitas:</strong> 2 Orang</p>
         <p><strong>Harga:</strong> Rp 250.000 / malam</p>
-
-        <a href="https://wa.me/6281234567890" class="btn-book" target="_blank" rel="noopener">
-          <img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png" alt="WhatsApp Icon" />
-          Book Now
-        </a>
       </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking-section">
+      @auth
+        <!-- Jika sudah login, tampilkan tombol WhatsApp -->
+        <section class="whatsapp-booking">
+          <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20booking%20Standard%20Room"
+             target="_blank"
+             class="btn-book"
+             style="display: inline-flex; align-items: center;">
+            <img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png"
+                 alt="WhatsApp Icon"
+                 style="margin-right: 8px;" />
+            Book Now via WhatsApp
+          </a>
+        </section>
+      @else
+        <!-- Jika belum login, minta login terlebih dahulu -->
+        <section class="login-prompt">
+          <a href="/login" class="btn-book">Login untuk Booking</a>
+        </section>
+      @endauth
     </section>
 
     <!-- JavaScript -->
