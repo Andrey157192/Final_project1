@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
@@ -43,11 +45,12 @@
 
     {{-- Data User Menu --}}  
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('datauser.index') }}">
-        <i class="bi bi-people-fill menu-icon"></i>
-        <span class="menu-title">Data User   </span>
-      </a>
-    </li>
+  <a href="{{ route('reservasi.index') }}" class="nav-link">
+    <i class="nav-icon fas fa-calendar-check"></i> {{-- Ikon reservasi --}}
+    <p>Data Reservasi</p>
+  </a>
+</li>
+
 
   </ul>
 </nav>

@@ -114,9 +114,10 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::post('/admin/ulasan/{id}/toggle', [DashboardController::class, 'toggleUlasan'])->name('admin.ulasan.toggle');
 
     // === USERS ===
-    Route::get('/dashboard/admin/users', [DashboardController::class, 'users'])->name('datauser.index');
-    Route::post('/dashboard/admin/users', [DashboardController::class, 'storeUser'])->name('datauser.store');
-    Route::get('/dashboard/admin/users/{user}/edit', [DashboardController::class, 'editUser'])->name('datauser.edit');
-    Route::put('/dashboard/admin/users/{user}', [DashboardController::class, 'updateUser'])->name('datauser.update');
-    Route::delete('/dashboard/admin/users/{user}', [DashboardController::class, 'destroyUser'])->name('datauser.destroy');
+    Route::get   ('admin/reservasi',            [DashboardController::class, 'users'])->name('reservasi.index');
+    Route::post  ('admin/reservasi',            [DashboardController::class, 'storeUser'])->name('reservasi.store');
+    Route::get   ('admin/reservasi/{id}/edit',  [DashboardController::class, 'editUser'])->name('reservasi.edit');
+    Route::put   ('admin/reservasi/{id}',       [DashboardController::class, 'updateUser'])->name('reservasi.update');
+    Route::delete('admin/reservasi/{id}',       [DashboardController::class, 'destroyUser'])->name('reservasi.destroy');
+    
 });

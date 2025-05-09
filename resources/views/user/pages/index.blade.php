@@ -55,7 +55,7 @@
               </figure>
               <div class="p-3 text-center room-info">
                 <h2>{{ $data->title }}</h2>
-                <span class="text-uppercase letter-spacing-1">{{ $data->price }}$ / per night</span>
+                <span class="text-uppercase letter-spacing-1">Rp {{ $data->price }} / per night</span>
               </div>
             </a>
           </div>

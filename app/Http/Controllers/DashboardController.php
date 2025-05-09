@@ -11,6 +11,7 @@ use App\Models\Leadership;
 use App\Models\HotelView;
 use App\Models\Room;
 use App\Models\Event;
+use App\Models\Reservasi;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DataUserExport;
 
@@ -244,72 +245,70 @@ public function destroyEvent(Event $event)
      * CRUD Data User
      */
     public function users()
-    {
-        $users = User::all();
-        return view('Admin.datauser', compact('users'));
-    }
-
-    public function storeUser(Request $request)
-    {
-        // Validasi custom:
-        // - name hanya huruf/spasi
-        // - nik tepat 16 digit angka
-        // - address hanya huruf/spasi
-        $validated = $request->validate([
-            'name'     => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
-            'nik'      => ['required', 'digits:16'],
-            'address'  => ['required', 'regex:/^[\pL\s]+$/u'],
-            'status'   => ['required', 'in:Menikah,Belum Menikah'],
-            'checkin'  => ['required', 'date'],
-            'checkout' => ['required', 'date', 'after_or_equal:checkin'],
-        ], [
-            'name.regex'    => 'Nama hanya boleh berisi huruf dan spasi.',
-            'nik.digits'    => 'NIK harus terdiri dari tepat 16 digit angka.',
-            'address.regex' => 'Alamat hanya boleh berisi huruf dan spasi.',
-        ]);
-
-        try {
-            User::create($validated);
-            return back()->with('success', 'Data pelanggan berhasil ditambahkan.');
-        } catch (QueryException $e) {
-            // jika entri gagal ke DB
-            return back()->with('error', 'Gagal menambahkan data pelanggan: ' . $e->getMessage());
-        }
-    }
-
-    /** Proses update user */
-    public function updateUser(Request $request, User $user)
-    {
-        $validated = $request->validate([
-            'name'     => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
-            'nik'      => ['required', 'digits:16'],
-            'address'  => ['required', 'regex:/^[\pL\s]+$/u'],
-            'status'   => ['required', 'in:Menikah,Belum Menikah'],
-            'checkin'  => ['required', 'date'],
-            'checkout' => ['required', 'date', 'after_or_equal:checkin'],
-        ], [
-            'name.regex'    => 'Nama hanya boleh berisi huruf dan spasi.',
-            'nik.digits'    => 'NIK harus terdiri dari tepat 16 digit angka.',
-            'address.regex' => 'Alamat hanya boleh berisi huruf dan spasi.',
-        ]);
-
-        $user->update($validated);
-        return redirect()->route('datauser.index')
-                         ->with('success', 'Data pelanggan berhasil diperbarui.');
-    }
-
-    /** Hapus user */
-    public function destroyUser(User $user)
-    {
-        $user->delete();
-        return redirect()->route('datauser.index')
-                         ->with('success', 'Data pelanggan berhasil dihapus.');
-    }
-
-    public function editUser($id)
 {
-    $user = User::findOrFail($id);
-    return view('Admin.editdatauser', compact('user'));
+    // ambil dari tabel reservasi
+    $reservasis = Reservasi::all();
+    return view('Admin.datauser', compact('reservasis'));
+}
+
+public function storeUser(Request $request)
+{
+    $validated = $request->validate([
+        'name'     => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+        'nik'      => ['required', 'digits:16'],
+        'address'  => ['required', 'regex:/^[\pL\s]+$/u'],
+        'status'   => ['required', 'in:Menikah,Belum Menikah'],
+        'checkin'  => ['required', 'date'],
+        'checkout' => ['required', 'date', 'after_or_equal:checkin'],
+    ], [
+        'name.regex'    => 'Nama hanya boleh berisi huruf dan spasi.',
+        'nik.digits'    => 'NIK harus terdiri dari tepat 16 digit angka.',
+        'address.regex' => 'Alamat hanya boleh berisi huruf dan spasi.',
+    ]);
+
+    try {
+        Reservasi::create($validated);
+        return back()->with('success', 'Reservasi berhasil ditambahkan.');
+    } catch (QueryException $e) {
+        return back()->with('error', 'Gagal menambahkan reservasi: ' . $e->getMessage());
+    }
+}
+
+public function editUser($id)
+{
+    $reservasi = Reservasi::findOrFail($id);
+    return view('Admin.reservasi.edit', compact('reservasi'));
+}
+
+public function updateUser(Request $request, $id)
+{
+    $validated = $request->validate([
+        'name'     => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+        'nik'      => ['required', 'digits:16'],
+        'address'  => ['required', 'regex:/^[\pL\s]+$/u'],
+        'status'   => ['required', 'in:Menikah,Belum Menikah'],
+        'checkin'  => ['required', 'date'],
+        'checkout' => ['required', 'date', 'after_or_equal:checkin'],
+    ], [
+        'name.regex'    => 'Nama hanya boleh berisi huruf dan spasi.',
+        'nik.digits'    => 'NIK harus terdiri dari tepat 16 digit angka.',
+        'address.regex' => 'Alamat hanya boleh berisi huruf dan spasi.',
+    ]);
+
+    $reservasi = Reservasi::findOrFail($id);
+    $reservasi->update($validated);
+
+    return redirect()->route('reservasi.index')
+                     ->with('success', 'Reservasi berhasil diperbarui.');
+}
+
+public function destroyUser($id)
+{
+    $reservasi = Reservasi::findOrFail($id);
+    $reservasi->delete();
+
+    return redirect()->route('reservasi.index')
+                     ->with('success', 'Reservasi berhasil dihapus.');
 }
 
 public function export()

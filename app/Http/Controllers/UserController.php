@@ -27,9 +27,11 @@ class UserController extends Controller
 }
 
 public function rooms(){
-                // data event terbaru
-    return view('user.pages.rooms');
+   $rooms= DB:: table ('rooms')->get();
+   
+    return view('user.pages.rooms',compact('rooms'));
 }
+
 
 }
 

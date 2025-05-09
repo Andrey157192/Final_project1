@@ -66,11 +66,11 @@
 <div class="container py-5">
   <div class="card shadow-lg">
     <div class="card-body">
-      <h2 class="card-title text-center mb-5">Tambah Data User</h2>
+      <h2 class="card-title text-center mb-5">Tambah Data Reservasi</h2>
 
       <div class="text-center mb-4">
         <button class="btn btn-success btn-lg" id="showFormBtn">
-          <i class="bi bi-person-plus-fill"></i> Tambah User
+          <i class="bi bi-person-plus-fill"></i> Tambah Reservasi
         </button>
       </div>
 
@@ -91,36 +91,26 @@
         </div>
       @endif
 
-      <form id="userForm" action="{{ route('datauser.store') }}" method="POST" style="display: none;">
+      <form id="reservasiForm" action="{{ route('reservasi.store') }}" method="POST" style="display: none;">
         @csrf
         <div class="row g-3">
+          <!-- Form Input Reservasi -->
+          @foreach ([
+            ['name', 'Full Name', 'person-fill'],
+            ['nik', 'Identity Number(KTP)', 'card-text'],
+            ['address', 'Address', 'geo-alt-fill'],
+          ] as [$name, $label, $icon])
           <div class="col-md-4">
             <div class="card form-card p-3">
-              <label class="form-label">Full Name</label>
+              <label class="form-label">{{ $label }}</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Full Name" required>
+                <span class="input-group-text"><i class="bi bi-{{ $icon }}"></i></span>
+                <input type="text" name="{{ $name }}" value="{{ old($name) }}" class="form-control" placeholder="{{ $label }}" required>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card form-card p-3">
-              <label class="form-label">Identity Number(KTP)</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-card-text"></i></span>
-                <input type="text" name="nik" value="{{ old('nik') }}" class="form-control" placeholder="Identity Number(KTP)" required>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card form-card p-3">
-              <label class="form-label">Address</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-                <input type="text" name="address" value="{{ old('address') }}" class="form-control" placeholder="Address" required>
-              </div>
-            </div>
-          </div>
+          @endforeach
+
           <div class="col-md-4">
             <div class="card form-card p-3">
               <label class="form-label">Status</label>
@@ -128,34 +118,31 @@
                 <span class="input-group-text"><i class="bi bi-heart-fill"></i></span>
                 <select name="status" class="form-select" required>
                   <option value="">Select Status</option>
-                  <option value="Menikah" {{ old('status')=='Menikah' ? 'selected' : '' }}>Merried</option>
+                  <option value="Menikah" {{ old('status')=='Menikah' ? 'selected' : '' }}>Married</option>
                   <option value="Belum Menikah" {{ old('status')=='Belum Menikah' ? 'selected' : '' }}>Not Married</option>
                 </select> 
               </div>
             </div>
           </div>
+
+          @foreach ([
+            ['checkin', 'Check-In', 'calendar-check-fill'],
+            ['checkout', 'Check-Out', 'calendar-x-fill']
+          ] as [$name, $label, $icon])
           <div class="col-md-4">
             <div class="card form-card p-3">
-              <label class="form-label">Check-In</label>
+              <label class="form-label">{{ $label }}</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-calendar-check-fill"></i></span>
-                <input type="date" name="checkin" value="{{ old('checkin') }}" class="form-control" required>
+                <span class="input-group-text"><i class="bi bi-{{ $icon }}"></i></span>
+                <input type="date" name="{{ $name }}" value="{{ old($name) }}" class="form-control" required>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card form-card p-3">
-              <label class="form-label">Check-Out</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-calendar-x-fill"></i></span>
-                <input type="date" name="checkout" value="{{ old('checkout') }}" class="form-control" required>
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
 
         <div class="text-center mt-5">
-          <button id="submitBtn" type="submit" class="btn btn-primary btn-lg">Tambah User</button>
+          <button class="btn btn-primary">Simpan Reservasi</button>
         </div>
       </form>
     </div>
@@ -164,12 +151,12 @@
   {{-- Tabel Data --}}
   <div class="card shadow-lg mt-5">
     <div class="card-body">
-      <h3 class="card-title mb-4">List Data User</h3>
-      <div class="d-flex justify-content-end mb-3">
-  
-</div>
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <h3 class="card-title mb-4">List Data Reservasi</h3>
+        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exportModal">Export</button>
+      </div>
 
-      <div class="table-responsive">
+      <div class="table-responsive mt-3">
         <table class="table table-hover table-bordered">
           <thead class="table-primary">
             <tr>
@@ -183,19 +170,20 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($users as $user)
+            @foreach ($reservasis as $reservasi)
               <tr>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->nik }}</td>
-                <td>{{ $user->address }}</td>
-                <td>{{ $user->status }}</td>
-                <td>{{ $user->checkin }}</td>
-                <td>{{ $user->checkout }}</td>
+                <td>{{ $reservasi->name }}</td>
+                <td>{{ $reservasi->nik }}</td>
+                <td>{{ $reservasi->address }}</td>
+                <td>{{ $reservasi->status }}</td>
+                <td>{{ $reservasi->checkin }}</td>
+                <td>{{ $reservasi->checkout }}</td>
                 <td>
-                  <a href="{{ route('datauser.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                  <form action="{{ route('datauser.destroy', $user->id) }}" method="POST" class="d-inline">
-                    @csrf @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Hapus user ini?')">Hapus</button>
+                  <a href="{{ route('reservasi.edit', $reservasi->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                  <form action="{{ route('reservasi.destroy', $reservasi->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                   </form>
                 </td>
               </tr>
@@ -210,9 +198,9 @@
 {{-- Bootstrap Icons --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-{{-- Script untuk loading dan toggle form --}}
+{{-- Script --}}
 <script>
-  const form = document.getElementById('userForm');
+  const form = document.getElementById('reservasiForm');
   const loadingOverlay = document.getElementById('loadingOverlay');
   const showFormBtn = document.getElementById('showFormBtn');
 
@@ -226,4 +214,29 @@
   });
 </script>
 
+{{-- Modal Export --}}
+<div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exportModalLabel">Export Berdasarkan Rentang Tanggal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Tanggal Mulai</label>
+          <input type="date" id="startDate" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Tanggal Akhir</label>
+          <input type="date" id="endDate" class="form-control" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" onclick="handleExport()">Export</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

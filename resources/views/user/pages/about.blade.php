@@ -27,13 +27,7 @@
             <p>{{ $settings->description }}</p>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <h3 class="mb-3">Our History</h3>
-            <p>{{ $settings->history }}</p>
-          </div>
-        </div>
-      </div>
+      
     </section>
 
     <!-- Leadership Section -->
@@ -93,4 +87,12 @@
         </div>
       </div>
     </section>
+    <div class="container">
+        <div class="row mb-4">
+          <div class="col-md-8 mx-auto text-center">
+            <h2 class="heading">History</h2>
+            <p>{{ $settings->history }}</p>
+          </div>
+        </div>
+      </div>
 @endsection
