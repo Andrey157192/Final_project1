@@ -34,7 +34,13 @@
               <a href="/rooms" class="nav-item"><i class="fas fa-bed"></i> Rooms</a>
               <a href="/about-user" class="nav-item"><i class="fas fa-info-circle"></i> About</a>
               <a href="/events" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</a>
+              @if(Auth::check())
+              <a href="/login" class="nav-item"><i class="fas fa-user"></i> {{Auth::user()->name}}</a>
+
+              @else
               <a href="/login" class="nav-item"><i class="fas fa-user"></i> Login</a>
+
+              @endif
             </div>
           </div>
         </nav>
