@@ -13,11 +13,11 @@
         </div>
       </div>
 
-      
+
     </section>
     <!-- END section -->
 
-    
+
 
     <section class="py-5 bg-light">
       <div class="container">
@@ -33,7 +33,7 @@
             <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
             <p><a href="#" class="btn btn-primary text-white py-2 mr-3">Learn More</a> <span class="mr-3 font-family-serif"><em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774"  data-fancybox class="text-uppercase letter-spacing-1">See video</a></p>
           </div>
-          
+
         </div>
       </div>
     </section>
@@ -49,7 +49,7 @@
         <div class="row">
             @foreach ($dataRooms as $data )
             <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="room/single" class="room">
+            <a href="{{ route('room.detail', $data->id) }}" class="room">
               <figure class="img-wrap">
                 <img src="{{ asset('storage/' . $data->photo_path) }}" alt="Free website template" class="img-fluid mb-3">
               </figure>
@@ -60,7 +60,7 @@
             </a>
           </div>
             @endforeach
-         
+
 
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
             <a href="room/family" class="room">
@@ -90,8 +90,8 @@
         </div>
       </div>
     </section>
-    
-    
+
+
     <section class="section slider-section bg-light">
       <div class="container">
         <div class="row justify-content-center text-center mb-5">
@@ -127,12 +127,12 @@
             </div>
             <!-- END slider -->
           </div>
-        
+
         </div>
       </div>
     </section>
     <!-- END section -->
-    
+
     <section class="section bg-image overlay" style="background-image: url('images/hero_3.jpg');">
       <div class="container">
         <div class="row justify-content-center text-center mb-5">
@@ -154,8 +154,8 @@
             </li>
           </ul>
           <div class="tab-content py-5" id="myTabContent">
-            
-            
+
+
             <div class="tab-pane fade show active text-left" id="mains" role="tabpanel" aria-labelledby="mains-tab">
               <div class="row">
                 <div class="col-md-6">
@@ -193,7 +193,7 @@
                   </div>
                 </div>
               </div>
-              
+
 
             </div> <!-- .tab-pane -->
 
@@ -277,7 +277,7 @@
         </div>
       </div>
     </section>
-    
+
     <!-- END section -->
     <section class="section testimonial-section">
       <div class="container">
@@ -288,7 +288,7 @@
         </div>
         <div class="row">
           <div class="js-carousel-2 owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
-            
+
             <div class="testimonial text-center slider-item">
               <div class="author-image mb-3">
                 <img src="images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
@@ -298,7 +298,7 @@
                 <p>&ldquo;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&rdquo;</p>
               </blockquote>
               <p><em>&mdash; Jean Smith</em></p>
-            </div> 
+            </div>
 
             <div class="testimonial text-center slider-item">
               <div class="author-image mb-3">
@@ -331,7 +331,7 @@
                 <p>&ldquo;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&rdquo;</p>
               </blockquote>
               <p><em>&mdash; Jean Smith</em></p>
-            </div> 
+            </div>
 
             <div class="testimonial text-center slider-item">
               <div class="author-image mb-3">
@@ -360,7 +360,7 @@
 
       </div>
     </section>
-    
+
 
     <section class="section blog-post-entry bg-light">
   <div class="container">

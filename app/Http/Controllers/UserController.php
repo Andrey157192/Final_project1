@@ -14,8 +14,11 @@ class UserController extends Controller
         $events    = Event::latest()->get();            // data event terbaru
         return view('user.pages.index', compact('dataRooms','events'));
     }
-    public function roomsDetail($id){
-        $detail = Room::find($id); 
+
+    public function roomsDetail($id)
+    {
+        $detail = Room::findOrFail($id);
+        return view('room.kamar_detail', compact('detail'));
     }
 
     public function about()
@@ -28,7 +31,7 @@ class UserController extends Controller
 
 public function rooms(){
    $rooms= DB:: table ('rooms')->get();
-   
+
     return view('user.pages.rooms',compact('rooms'));
 }
 
