@@ -56,24 +56,27 @@ class AuthController extends Controller
     // Fungsi Register
     public function register(Request $request)
     {
-        $request->validate([
+        // Validasi input
+        $validatedData = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => Hash::make($request->password),
-        ]);
-
+        // Buat user baru dengan data yang sudah divalidasi
+        $user = new User();
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->password = Hash::make($validatedData['password']);
+        $user->role = 'user';
+        $user->save();
+        
+        // Login user
         Auth::login($user);
 
         return redirect('/login');
     }
+    
     public function registerPage(){
         return view('auth.register');
     }
