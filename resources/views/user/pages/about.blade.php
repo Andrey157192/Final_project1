@@ -26,9 +26,6 @@
             {{-- <p>{{ $settings->description }}</p> --}}
           </div>
         </div>
-<<<<<<< HEAD
-      
-=======
         <div class="row">
           <div class="col-md-12">
             <h3 class="mb-3">Our History</h3>
@@ -36,7 +33,6 @@
           </div>
         </div>
       </div>
->>>>>>> 848fa5c0e136939ea5a04a32a74c65d608118c6a
     </section>
 
     <!-- Leadership Section -->
@@ -100,7 +96,7 @@
         <div class="row mb-4">
           <div class="col-md-8 mx-auto text-center">
             <h2 class="heading">History</h2>
-            <p>{{ $settings->history }}</p>
+            {{-- <p>{{ $settings->history }}</p> --}}
           </div>
         </div>
       </div>
