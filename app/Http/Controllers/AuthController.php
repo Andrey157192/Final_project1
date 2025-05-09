@@ -29,7 +29,7 @@ class AuthController extends Controller
             if ($user->role === 'admin') {
                 return redirect('/admin/dashboard');
             } elseif ($user->role === 'user') {
-                return redirect('/user/index');
+                return redirect('/');
             } elseif ($user->role === 'resepsionis') {
                 return redirect('/resepsionis/dashboard');
             } else {
@@ -70,13 +70,13 @@ class AuthController extends Controller
         $user->password = Hash::make($validatedData['password']);
         $user->role = 'user';
         $user->save();
-        
+
         // Login user
         Auth::login($user);
 
         return redirect('/login');
     }
-    
+
     public function registerPage(){
         return view('auth.register');
     }

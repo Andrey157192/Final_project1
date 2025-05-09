@@ -45,6 +45,28 @@
       </div>
     </section>
 
+    {{-- Data for Wa --}}
+    @if(Auth::check())
+        <form action="{{ route('book.now') }}" method="POST">
+        @csrf
+        <input type="hidden" name="name" value="{{ Auth::user()->name }}">
+        <input type="hidden" name="kamar" value="{{ $detail->title }}">
+        <input type="hidden" name="checkin" value="{{ now()->toDateString() }}">
+        <input type="hidden" name="checkout" value="{{ now()->addDay()->toDateString() }}">
+
+        <button type="submit" class="btn-book">
+            <img src="{{ asset('images/whatsapp-icon.png') }}" alt="WhatsApp Icon" />
+            Book Now
+        </button>
+        </form>
+        @else
+        <a href="{{ route('login') }}" class="btn-book">
+        <img src="{{ asset('images/whatsapp-icon.png') }}" alt="WhatsApp Icon" />
+        Silakan Login untuk Booking
+        </a>
+    @endif
+
+
     <!-- JavaScript -->
     <script src="{{ asset('js/room.js') }}"></script>
   </div>

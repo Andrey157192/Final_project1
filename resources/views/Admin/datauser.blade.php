@@ -120,7 +120,7 @@
                   <option value="">Select Status</option>
                   <option value="Menikah" {{ old('status')=='Menikah' ? 'selected' : '' }}>Married</option>
                   <option value="Belum Menikah" {{ old('status')=='Belum Menikah' ? 'selected' : '' }}>Not Married</option>
-                </select> 
+                </select>
               </div>
             </div>
           </div>
@@ -173,9 +173,9 @@
             @foreach ($reservasis as $reservasi)
               <tr>
                 <td>{{ $reservasi->name }}</td>
-                <td>{{ $reservasi->nik }}</td>
-                <td>{{ $reservasi->address }}</td>
-                <td>{{ $reservasi->status }}</td>
+                <td>{{ $reservasi->nik ? null : 'Belum di set' }}</td>
+                <td>{{ $reservasi->address ? null : 'Belum di set' }}</td>
+                <td>{{ $reservasi->status ? null : 'Belum di set' }}</td>
                 <td>{{ $reservasi->checkin }}</td>
                 <td>{{ $reservasi->checkout }}</td>
                 <td>

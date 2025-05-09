@@ -13,9 +13,6 @@ class Reservasi extends Model
 
     protected $fillable = [
         'name',
-        'nik',
-        'address',
-        'status',
         'checkin',
         'checkout',
     ];

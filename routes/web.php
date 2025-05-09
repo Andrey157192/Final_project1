@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,4 +130,4 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::delete('admin/reservasi/{id}',       [DashboardController::class, 'destroyUser'])->name('reservasi.destroy');
 
 });
-// Route::get('/book-now', [BookingController::class, 'showBookingForm'])->name('book.now')->middleware('auth');
+Route::post('/book-now', [BookingController::class, 'booking'])->name('book.now')->middleware('auth');

@@ -277,7 +277,7 @@ public function storeUser(Request $request)
 public function editUser($id)
 {
     $reservasi = Reservasi::findOrFail($id);
-    return view('Admin.reservasi.edit', compact('reservasi'));
+    return view('Admin.editdatauser', compact('reservasi'));
 }
 
 public function updateUser(Request $request, $id)

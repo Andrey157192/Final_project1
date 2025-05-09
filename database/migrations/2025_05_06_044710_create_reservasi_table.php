@@ -11,9 +11,9 @@ class CreateReservasiTable extends Migration
         Schema::create('reservasi', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('nik', 16);
-            $table->string('address');
-            $table->enum('status', ['Menikah', 'Belum Menikah']);
+            $table->string('nik', 16)->nullable();
+            $table->string('address')->nullable();
+            $table->enum('status', ['Menikah', 'Belum Menikah'])->nullable();
             $table->date('checkin');
             $table->date('checkout');
             $table->timestamps();
