@@ -31,10 +31,17 @@
         <p><strong>Kapasitas:</strong> 2 Orang</p>
         <p><strong>Harga:</strong> Rp 250.000 / malam</p>
 
-        <a href="https://wa.me/6281378080951" class="btn-book" target="_blank" rel="noopener">
-          <img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png" alt="WhatsApp Icon" />
-          Book Now
+        @if(Auth::check())
+        <a href="{{ route('book.now') }}" class="btn-book">
+            <img src="{{ asset('images/whatsapp-icon.png') }}" alt="WhatsApp Icon" />
+            Book Now
         </a>
+    @else
+        <a href="{{ route('login') }}" class="btn-book">
+            <img src="{{ asset('images/whatsapp-icon.png') }}" alt="WhatsApp Icon" />
+            Silakan Login untuk Booking
+        </a>
+    @endif
       </div>
     </section>
 
