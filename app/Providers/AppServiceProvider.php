@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
 use App\Models\AboutSetting;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,15 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Ambil data AboutSetting
-        $settings = AboutSetting::first();
-
-        // Share ke semua view
-        View::share('settings', $settings);
-
-        // Kalau hanya ingin share ke partials.footer saja:
-        // View::composer('partials.footer', function($view) use ($settings) {
-        //     $view->with('settings', $settings);
-        // });
+        if (Schema::hasTable('about_settings')) {
+            $about = AboutSetting::first(); // atau kode lain yang memanggil tabel ini
+        }
     }
 }

@@ -25,40 +25,60 @@
           </div>
         </div>
         <div class="row">
+<<<<<<< HEAD
             @foreach ($rooms as $data )
             <div class="col-md-6 col-lg-4" data-aos="fade-up">
             <a href="room/single" class="room">
+=======
+          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
+            <a href="room/kamar1" class="room">
+>>>>>>> 848fa5c0e136939ea5a04a32a74c65d608118c6a
               <figure class="img-wrap">
                 <img src="{{ asset('storage/' . $data->photo_path) }}" alt="Free website template" class="img-fluid mb-3">
               </figure>
               <div class="p-3 text-center room-info">
+<<<<<<< HEAD
                 <h2>{{ $data->title }}</h2>
                 <span class="text-uppercase letter-spacing-1">Rp {{ $data->price }} / per night</span>
+=======
+                <h2>kamar 1</h2>
+                <span class="text-uppercase letter-spacing-1">90$ / per night</span>
+>>>>>>> 848fa5c0e136939ea5a04a32a74c65d608118c6a
               </div>
             </a>
           </div>
             @endforeach
          
 
+<<<<<<< HEAD
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
             <a href="room/family" class="room">
+=======
+          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
+            <a href="room/kamar2" class="room">
+>>>>>>> 848fa5c0e136939ea5a04a32a74c65d608118c6a
               <figure class="img-wrap">
                 <img src="images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
               </figure>
               <div class="p-3 text-center room-info">
-                <h2>Family Room</h2>
+                <h2>kamar 2</h2>
                 <span class="text-uppercase letter-spacing-1">120$ / per night</span>
               </div>
             </a>
           </div>
 
+<<<<<<< HEAD
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
             <a href="room/presidential" class="room">
+=======
+          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
+            <a href="room/kamar3" class="room">
+>>>>>>> 848fa5c0e136939ea5a04a32a74c65d608118c6a
               <figure class="img-wrap">
                 <img src="images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
               </figure>
               <div class="p-3 text-center room-info">
-                <h2>Presidential Room</h2>
+                <h2>kamar 3</h2>
                 <span class="text-uppercase letter-spacing-1">250$ / per night</span>
               </div>
             </a>

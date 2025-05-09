@@ -22,6 +22,7 @@ Route::get('/register', [AuthController::class, 'registerPage'])->name('register
 Route::post('/register', [AuthController::class, 'register'])->name('registerpost');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
 // PUBLIC USER ROUTES
 Route::get('/',[UserController::class,'index']);
 
@@ -33,8 +34,12 @@ Route::get('/events', [UserController::class, 'index'])->name('user.events');
 Route::get('/contact', fn () => view('user.pages.contact'));
 Route::get('/reservation', fn () => view('user.pages.reservation'));
 
-Route::get('/room/single', fn () => view('room.single'));
-Route::get('/room/family', fn () => view('room.family'));
+Route::get('/room/kamar1', fn () => view('room.kamar1'));
+Route::get('/room/kamar2', fn () => view('room.kamar2'));
+Route::get('/room/kamar3', fn () => view('room.kamar3'));
+Route::get('/room/kamar4', fn () => view('room.kamar4'));
+Route::get('/room/kamar5', fn () => view('room.kamar5'));
+Route::get('/room/kamar6', fn () => view('room.kamar6'));
 
 // ==========================
 // AUTH MIDDLEWARE PROTECTED PROFILE ROUTES
@@ -62,6 +67,8 @@ Route::middleware(['auth','role:agent'])->group(function () {
 // ==========================
 Route::middleware(['auth','role:user'])->group(function () {
     Route::get('/user', [UserController::class, 'home']);
+
+
 });
 
 // ==========================
@@ -114,10 +121,19 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::post('/admin/ulasan/{id}/toggle', [DashboardController::class, 'toggleUlasan'])->name('admin.ulasan.toggle');
 
     // === USERS ===
+<<<<<<< HEAD
     Route::get   ('admin/reservasi',            [DashboardController::class, 'users'])->name('reservasi.index');
     Route::post  ('admin/reservasi',            [DashboardController::class, 'storeUser'])->name('reservasi.store');
     Route::get   ('admin/reservasi/{id}/edit',  [DashboardController::class, 'editUser'])->name('reservasi.edit');
     Route::put   ('admin/reservasi/{id}',       [DashboardController::class, 'updateUser'])->name('reservasi.update');
     Route::delete('admin/reservasi/{id}',       [DashboardController::class, 'destroyUser'])->name('reservasi.destroy');
+=======
+    Route::get('/dashboard/admin/users', [DashboardController::class, 'users'])->name('datauser.index');
+    Route::post('/dashboard/admin/users', [DashboardController::class, 'storeUser'])->name('datauser.store');
+    Route::get('/dashboard/admin/users/{user}/edit', [DashboardController::class, 'editUser'])->name('datauser.edit');
+    Route::put('/dashboard/admin/users/{user}', [DashboardController::class, 'updateUser'])->name('datauser.update');
+    Route::delete('/dashboard/admin/users/{user}', [DashboardController::class, 'destroyUser'])->name('datauser.destroy');
+>>>>>>> 848fa5c0e136939ea5a04a32a74c65d608118c6a
     
 });
+// Route::get('/book-now', [BookingController::class, 'showBookingForm'])->name('book.now')->middleware('auth');
