@@ -328,207 +328,205 @@
     </section>
 
     <!-- END section -->
-    <section class="section testimonial-section">
-      <div class="container">
-        <div class="row justify-content-center text-center mb-5">
-          <div class="col-md-7">
-            <h2 class="heading" data-aos="fade-up">People Says</h2>
-          </div>
-        </div>
+    <!-- Reviews Section -->
+<section class="section testimonial-section">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-md-7">
+        <h2 class="heading" data-aos="fade-up">What Our Guests Say</h2>
+        <p class="text-muted" data-aos="fade-up" data-aos-delay="100">Read reviews from guests who have experienced our hospitality</p>
+      </div>
+    </div>
 
-        @if(Auth::check())
-        <div class="rating-form bg-white p-4 rounded shadow-sm mb-5" data-aos="fade-up">
-          <div class="row justify-content-center">
-            <div class="col-md-8">
-              <h3 class="text-center mb-4">Share Your Experience</h3>
-              <form action="{{ route('ratings.store') }}" method="POST">
-                @csrf
-                <div class="form-group mb-4">
-                  <label class="d-block text-center mb-3">Your Rating</label>
-                  <div class="rating-stars text-center mb-3">
-                    <input type="radio" name="rating" id="star5" value="5" class="d-none" required/>
-                    <label for="star5" class="star"><i class="fas fa-star fa-2x"></i></label>
-                    <input type="radio" name="rating" id="star4" value="4" class="d-none"/>
-                    <label for="star4" class="star"><i class="fas fa-star fa-2x"></i></label>
-                    <input type="radio" name="rating" id="star3" value="3" class="d-none"/>
-                    <label for="star3" class="star"><i class="fas fa-star fa-2x"></i></label>
-                    <input type="radio" name="rating" id="star2" value="2" class="d-none"/>
-                    <label for="star2" class="star"><i class="fas fa-star fa-2x"></i></label>
-                    <input type="radio" name="rating" id="star1" value="1" class="d-none"/>
-                    <label for="star1" class="star"><i class="fas fa-star fa-2x"></i></label>
-                  </div>
-                </div>
-                <div class="form-group mb-4">
-                  <label for="comment" class="form-label">Your Review</label>
-                  <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="Share your experience with us..." required></textarea>
-                </div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary px-5">Submit Review</button>
-                </div>
-              </form>
+    <!-- Reviews Slideshow -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="js-carousel-2 owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
+          @foreach($ratings as $rating)
+          <div class="testimonial text-center slider-item">
+            <div class="rating-display mb-4">
+              @for($i = 1; $i <= 5; $i++)
+                <i class="fas fa-star {{ $i <= $rating->rating ? 'text-warning' : 'text-muted' }}"></i>
+              @endfor
+            </div>
+            <blockquote class="mb-4">
+              <p class="review-text">&ldquo;{{ $rating->comment }}&rdquo;</p>
+            </blockquote>
+            <div class="reviewer-info">
+              <h5 class="reviewer-name mb-2">{{ $rating->user->name }}</h5>
+              <small class="text-muted">{{ $rating->created_at->format('M d, Y') }}</small>
             </div>
           </div>
-        </div>
-        @else
-        <div class="login-prompt text-center mb-5" data-aos="fade-up">
-          <div class="bg-white p-4 rounded shadow-sm">
-            <h3 class="mb-3">Want to Share Your Experience?</h3>
-            <p class="mb-4">Please login to submit your review and rating.</p>
-            <a href="{{ route('login') }}" class="btn btn-primary px-5">Login Now</a>
-          </div>
-        </div>
-        @endif
-
-        <style>
-          .rating-stars {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-          }
-          .star {
-            color: #ddd;
-            cursor: pointer;
-            padding: 0 5px;
-            transition: color 0.2s;
-          }
-          .star:hover,
-          .star:hover ~ .star,
-          input:checked ~ label.star {
-            color: #ffc107;
-          }
-          .rating-form, .login-prompt {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-          }
-          .rating-form textarea {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            resize: vertical;
-          }
-          .rating-form textarea:focus {
-            border-color: #80bdff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-          }
-          .btn-primary {
-            padding: 10px 30px;
-            border-radius: 30px;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-          }
-          .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-          }
-        </style>
-
-        <div class="row">
-          <div class="js-carousel-2 owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
-            @foreach($ratings as $rating)
-            <div class="testimonial text-center slider-item">
-              <div class="author-image mb-3">
-                <img src="images/person_{{ $rating->user_id % 3 + 1 }}.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
-              </div>
-              <div class="rating-display mb-2">
-                @for($i = 1; $i <= 5; $i++)
-                  <i class="fas fa-star {{ $i <= $rating->rating ? 'text-warning' : 'text-muted' }}"></i>
-                @endfor
-              </div>
-              <blockquote>
-                <p>&ldquo;{{ $rating->comment }}&rdquo;</p>
-              </blockquote>
-              <p><em>&mdash; {{ $rating->user->name }}</em></p>
-            </div>
-            @endforeach
-          </div>
+          @endforeach
         </div>
       </div>
-    </section>
-
-    <!-- Rating Section -->
-    <section class="rating-slider">
-        <div class="container">
-            <div class="row justify-content-center text-center mb-5">
-                <div class="col-md-7">
-                    <h2 class="heading" data-aos="fade-up">What Our Guests Say</h2>
-                    <p data-aos="fade-up" data-aos-delay="100">Read reviews from guests who have experienced our hospitality</p>
-                </div>
-            </div>
-
-            <div class="swiper-container" data-aos="fade-up">
-                <div class="swiper-wrapper">
-                    @foreach($ratings as $rating)
-                        <div class="swiper-slide">
-                            <div class="rating-card">
-                                <div class="rating-stars">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        <i class="fa fa-star {{ $i <= $rating->rating ? '' : 'text-muted' }}"></i>
-                                    @endfor
-                                </div>
-                                <div class="rating-comment">
-                                    "{{ $rating->comment }}"
-                                </div>
-                                <div class="rating-user">
-                                    - {{ $rating->user->name }}
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-
-            @auth
-                <div class="text-center mt-4">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ratingModal">
-                        Leave a Review
-                    </button>
-                </div>
-            @else
-                <div class="text-center mt-4">
-                    <a href="{{ route('login') }}" class="btn btn-outline-primary">Login to Leave a Review</a>
-                </div>
-            @endauth
-        </div>
-    </section>
-
-    <!-- Rating Modal -->
-    <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ratingModalLabel">Leave a Review</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('ratings.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Rating</label>
-                            <div class="rating-input">
-                                @for($i = 5; $i >= 1; $i--)
-                                    <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" required>
-                                    <label for="star{{ $i }}"><i class="fa fa-star"></i></label>
-                                @endfor
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Comment</label>
-                            <textarea class="form-control" name="comment" rows="3" required></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit Review</button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
+
+    <!-- Review Form or Login Prompt -->
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        @auth
+          <div class="review-form-container bg-white p-4 rounded-lg shadow" data-aos="fade-up">
+            <h3 class="text-center mb-4">Share Your Experience</h3>
+            <form action="{{ route('ratings.store') }}" method="POST">
+              @csrf
+              <div class="form-group mb-4">
+                <label class="d-block text-center mb-3">Your Rating</label>
+                <div class="rating-input text-center">
+                  @for($i = 5; $i >= 1; $i--)
+                    <input type="radio" name="rating" id="star{{ $i }}" value="{{ $i }}" class="d-none" required>
+                    <label for="star{{ $i }}" class="star-label mx-1">
+                      <i class="fas fa-star fa-lg"></i>
+                    </label>
+                  @endfor
+                </div>
+              </div>
+              <div class="form-group mb-4">
+                <textarea name="comment" 
+                          class="form-control" 
+                          rows="4" 
+                          placeholder="Tell us about your stay..."
+                          required></textarea>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-warning px-5 py-2">
+                  Submit Review
+                </button>
+              </div>
+            </form>
+          </div>
+        @else
+          <div class="login-prompt text-center bg-white p-4 rounded-lg shadow" data-aos="fade-up">
+            <i class="fas fa-comment-dots fa-3x text-warning mb-3"></i>
+            <h3 class="mb-3">Want to Share Your Experience?</h3>
+            <p class="text-muted mb-4">Sign in to share your review and help other travelers</p>
+            <a href="{{ route('login') }}" class="btn btn-warning px-5 py-2">
+              Sign In to Review
+            </a>
+          </div>
+        @endauth
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .testimonial-section {
+      background-color: #f8f9fa;
+      padding: 80px 0;
+    }
+    .slider-item {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+      margin: 10px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .rating-display {
+      font-size: 24px;
+    }
+    .review-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .reviewer-name {
+      color: #333;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .btn-warning {
+      background-color: #ffc107;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      color: #000;
+    }
+    .btn-warning:hover {
+      background-color: #ffb300;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255,193,7,0.3);
+      color: #000;
+    }
+    .js-carousel-2 .owl-nav {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .js-carousel-2 .owl-nav button {
+      background: #ffc107 !important;
+      color: white !important;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0 5px;
+      transition: all 0.3s ease;
+    }
+    .js-carousel-2 .owl-nav button:hover {
+      background: #ffb300 !important;
+      transform: translateY(-2px);
+    }
+    .js-carousel-2 .owl-dots {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .js-carousel-2 .owl-dot {
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      background: #ddd !important;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    .js-carousel-2 .owl-dot.active {
+      background: #ffc107 !important;
+      transform: scale(1.2);
+    }
+    .rating-input label {
+      cursor: pointer;
+      color: #dee2e6;
+      transition: color 0.2s ease;
+      font-size: 24px;
+    }
+    .rating-input input:checked ~ label,
+    .rating-input label:hover,
+    .rating-input label:hover ~ label {
+      color: #ffc107;
+    }
+  </style>
+
+  <!-- Initialize Owl Carousel -->
+  <script>
+    $(document).ready(function(){
+      $(".js-carousel-2").owlCarousel({
+        center: true,
+        items: 1,
+        loop: true,
+        margin: 30,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true,
+        nav: true,
+        dots: true,
+        navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
+        responsive: {
+          768: {
+            items: 2
+          },
+          992: {
+            items: 3
+          }
+        }
+      });
+    });
+  </script>
+</section>
 
     <section class="section blog-post-entry bg-light">
   <div class="container">
