@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\RatingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +31,9 @@ Route::get('/',[UserController::class,'index']);
 
 Route::get('/about-user', [UserController::class, 'about'])->name('aboutuser');
 Route::get('/rooms', [UserController::class, 'rooms'])->name('roomsuser');
+Route::get('/room/single{id}', [UserController::class, 'roomsDetail'])->name('room.detail');
 
-Route::get('/events', [UserController::class, 'index'])->name('user.events');
+Route::get('/events', [UserController::class, 'events'])->name('user.events');
 Route::get('/contact', fn () => view('user.pages.contact'));
 Route::get('/reservation', fn () => view('user.pages.reservation'));
 
@@ -87,7 +90,7 @@ Route::middleware(['auth','role:admin'])->group(function () {
     // === Front Pages ===
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     Route::get('/about', [DashboardController::class, 'about'])->name('about');
-    
+
     Route::get('/contact', [DashboardController::class, 'contact'])->name('contact');
 
     // === ROOMS ===
@@ -121,11 +124,36 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::post('/admin/ulasan/{id}/toggle', [DashboardController::class, 'toggleUlasan'])->name('admin.ulasan.toggle');
 
     // === USERS ===
-    Route::get   ('admin/reservasi',            [DashboardController::class, 'users'])->name('reservasi.index');
-    Route::post  ('admin/reservasi',            [DashboardController::class, 'storeUser'])->name('reservasi.store');
-    Route::get   ('admin/reservasi/{id}/edit',  [DashboardController::class, 'editUser'])->name('reservasi.edit');
-    Route::put   ('admin/reservasi/{id}',       [DashboardController::class, 'updateUser'])->name('reservasi.update');
-    Route::delete('admin/reservasi/{id}',       [DashboardController::class, 'destroyUser'])->name('reservasi.destroy');
-    
+    Route::get   ('admin/reservasi',            [DashboardController::class, 'indexReservasi'])->name('reservasi.index');
+    Route::post  ('admin/reservasi',            [DashboardController::class, 'storeReservasi'])->name('reservasi.store');
+    Route::get   ('admin/reservasi/{id}/edit',  [DashboardController::class, 'editReservasi'])->name('reservasi.edit');
+    Route::put   ('admin/reservasi/{id}',       [DashboardController::class, 'updateReservasi'])->name('reservasi.update');
+    Route::delete('admin/reservasi/{id}',       [DashboardController::class, 'destroyReservasi'])->name('reservasi.destroy');
+
+    // === RATINGS ===
+    Route::get('/admin/ratings', [RatingController::class, 'index'])->name('admin.ratings');
+    Route::post('/admin/ratings/{id}/approve', [RatingController::class, 'approve'])->name('ratings.approve');
+
+    // Admin Rating Routes
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/admin/ratings', [RatingController::class, 'adminIndex'])->name('admin.ratings');
+        Route::post('/admin/ratings/{id}/approve', [RatingController::class, 'approve'])->name('admin.ratings.approve');
+        Route::delete('/admin/ratings/{id}', [RatingController::class, 'destroy'])->name('admin.ratings.destroy');
+    });
+
 });
-// Route::get('/book-now', [BookingController::class, 'showBookingForm'])->name('book.now')->middleware('auth');
+Route::post('/book-now', [BookingController::class, 'booking'])->name('book.now')->middleware('auth');
+
+// Rating Routes
+Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
+
+// Rating routes
+Route::get('/ratings', [RatingController::class, 'index'])->name('ratings.index');
+Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store')->middleware('auth');
+
+// Admin rating routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/ratings', [RatingController::class, 'adminIndex'])->name('admin.ratings');
+    Route::post('/admin/ratings/{id}/approve', [RatingController::class, 'approve'])->name('admin.ratings.approve');
+    Route::delete('/admin/ratings/{id}', [RatingController::class, 'destroy'])->name('admin.ratings.destroy');
+});

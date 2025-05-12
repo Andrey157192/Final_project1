@@ -92,59 +92,72 @@
       @endif
 
       <form id="reservasiForm" action="{{ route('reservasi.store') }}" method="POST" style="display: none;">
-        @csrf
-        <div class="row g-3">
-          <!-- Form Input Reservasi -->
-          @foreach ([
-            ['name', 'Full Name', 'person-fill'],
-            ['nik', 'Identity Number(KTP)', 'card-text'],
-            ['address', 'Address', 'geo-alt-fill'],
-          ] as [$name, $label, $icon])
-          <div class="col-md-4">
-            <div class="card form-card p-3">
-              <label class="form-label">{{ $label }}</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-{{ $icon }}"></i></span>
-                <input type="text" name="{{ $name }}" value="{{ old($name) }}" class="form-control" placeholder="{{ $label }}" required>
-              </div>
-            </div>
-          </div>
-          @endforeach
-
-          <div class="col-md-4">
-            <div class="card form-card p-3">
-              <label class="form-label">Status</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-heart-fill"></i></span>
-                <select name="status" class="form-select" required>
-                  <option value="">Select Status</option>
-                  <option value="Menikah" {{ old('status')=='Menikah' ? 'selected' : '' }}>Married</option>
-                  <option value="Belum Menikah" {{ old('status')=='Belum Menikah' ? 'selected' : '' }}>Not Married</option>
-                </select> 
-              </div>
-            </div>
-          </div>
-
-          @foreach ([
-            ['checkin', 'Check-In', 'calendar-check-fill'],
-            ['checkout', 'Check-Out', 'calendar-x-fill']
-          ] as [$name, $label, $icon])
-          <div class="col-md-4">
-            <div class="card form-card p-3">
-              <label class="form-label">{{ $label }}</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-{{ $icon }}"></i></span>
-                <input type="date" name="{{ $name }}" value="{{ old($name) }}" class="form-control" required>
-              </div>
-            </div>
-          </div>
-          @endforeach
+  @csrf
+  <div class="row g-3">
+    <!-- PILIH CUSTOMER -->
+    <div class="col-md-6">
+      <div class="card form-card p-3">
+        <label class="form-label">Pilih Customer</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+          <select name="id_customer" class="form-select" required>
+            <option value="">-- Pilih Customer --</option>
+            @foreach($customers as $customer)
+              <option value="{{ $customer->id }}" {{ old('id_customer') == $customer->id ? 'selected' : '' }}>
+                {{ $customer->name }} ({{ $customer->email }})
+              </option>
+            @endforeach
+          </select>
         </div>
+      </div>
+    </div>
 
-        <div class="text-center mt-5">
-          <button class="btn btn-primary">Simpan Reservasi</button>
+    <!-- PILIH KAMAR -->
+    <div class="col-md-6">
+      <div class="card form-card p-3">
+        <label class="form-label">Pilih Kamar</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-door-open-fill"></i></span>
+          <select name="id_rooms" class="form-select" required>
+            <option value="">-- Pilih Kamar --</option>
+            @foreach($rooms as $room)
+              <option value="{{ $room->id }}" {{ old('id_rooms') == $room->id ? 'selected' : '' }}>
+                {{ $room->title }} - Rp{{ number_format($room->price) }}/malam
+              </option>
+            @endforeach
+          </select>
         </div>
-      </form>
+      </div>
+    </div>
+
+    <!-- TANGGAL CHECK-IN -->
+    <div class="col-md-6">
+      <div class="card form-card p-3">
+        <label class="form-label">Tanggal Check-In</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-calendar-check-fill"></i></span>
+          <input type="date" name="checkIn_date" value="{{ old('checkIn_date') }}" class="form-control" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- TANGGAL CHECK-OUT -->
+    <div class="col-md-6">
+      <div class="card form-card p-3">
+        <label class="form-label">Tanggal Check-Out</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-calendar-x-fill"></i></span>
+          <input type="date" name="checkOut_date" value="{{ old('checkOut_date') }}" class="form-control" required>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-5">
+    <button class="btn btn-primary">Simpan Reservasi</button>
+  </div>
+</form>
+
     </div>
   </div>
 
@@ -170,15 +183,15 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($reservasis as $reservasi)
+            @foreach ($customers as $reservasi)
               <tr>
-                <td>{{ $reservasi->name }}</td>
-                <td>{{ $reservasi->nik }}</td>
-                <td>{{ $reservasi->address }}</td>
-                <td>{{ $reservasi->status }}</td>
-                <td>{{ $reservasi->checkin }}</td>
-                <td>{{ $reservasi->checkout }}</td>
-                <td>
+               <td>{{ $reservasi->customer->name ?? '-' }}</td>
+                <td>{{ $reservasi->customer->nik ?? '-' }}</td>
+                <td>{{ $reservasi->customer->address ?? '-' }}</td>
+                <td>{{ $reservasi->customer->status ?? '-' }}</td>
+                <td>{{ $reservasi->checkIn_date }}</td>
+                <td>{{ $reservasi->checkOut_date }}</td>
+
                   <a href="{{ route('reservasi.edit', $reservasi->id) }}" class="btn btn-sm btn-warning">Edit</a>
                   <form action="{{ route('reservasi.destroy', $reservasi->id) }}" method="POST" style="display:inline;">
                     @csrf

@@ -34,7 +34,19 @@
               <a href="/rooms" class="nav-item"><i class="fas fa-bed"></i> Rooms</a>
               <a href="/about-user" class="nav-item"><i class="fas fa-info-circle"></i> About</a>
               <a href="/events" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</a>
+              @if(Auth::check())
+              <a href="/login" class="nav-item"><i class="fas fa-user"></i> {{Auth::user()->name}}</a>
+              <a href="/logout" class="nav-item"
+                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+                  <input type="hidden" name="redirect_to" value="/"> <!-- Redirect to home page -->
+              </form>
+              @else
               <a href="/login" class="nav-item"><i class="fas fa-user"></i> Login</a>
+              @endif
             </div>
           </div>
         </nav>

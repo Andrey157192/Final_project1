@@ -9,14 +9,13 @@ class CreateReservasiTable extends Migration
     public function up()
     {
         Schema::create('reservasi', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('nik', 16);
-            $table->string('address');
-            $table->enum('status', ['Menikah', 'Belum Menikah']);
-            $table->date('checkin');
-            $table->date('checkout');
-            $table->timestamps();
+            $table->id(); // Kolom id sebagai Primary Key
+            $table->string('created_by'); // FK ke tabel users (misalnya user yang membuat reservasi)
+            $table->string('id_customer'); // FK ke tabel customers
+            $table->string('id_rooms'); // FK ke tabel rooms
+            $table->date('checkIn_date'); // Kolom untuk tanggal check-in
+            $table->date('checkOut_date'); // Kolom untuk tanggal check-out
+            $table->timestamps(); // created_at, updated_at
         });
     }
 
@@ -25,3 +24,4 @@ class CreateReservasiTable extends Migration
         Schema::dropIfExists('reservasi');
     }
 }
+

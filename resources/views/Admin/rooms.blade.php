@@ -24,31 +24,48 @@
     </div>
 
     {{-- Form Tambah Room (disembunyikan awalnya) --}}
-    <form
-      id="roomForm"
-      action="{{ route('admin.rooms.store') }}"
-      method="POST"
-      enctype="multipart/form-data"
-      class="row g-3 mb-5"
-      style="display: none;"
-    >
-      @csrf
-      <div class="col-md-3">
-        <input type="text" name="title" class="form-control" placeholder="Nama Kamar" required>
-      </div>
-      <div class="col-md-2">
-        <input type="number" name="price" class="form-control" placeholder="Harga/night" required>
-      </div>
-      <div class="col-md-3">
-        <input type="file" name="photo" class="form-control" required>
-      </div>
-      <div class="col-md-4">
-        <textarea name="description" class="form-control" placeholder="Deskripsi Kamar"></textarea>
-      </div>
-      <div class="col-12">
-        <button class="btn btn-primary">Tambah Kamar</button>
-      </div>
-    </form>
+  <form
+  id="roomForm"
+  action="{{ route('admin.rooms.store') }}"
+  method="POST"
+  enctype="multipart/form-data"
+  class="row g-3 mb-5"
+  style="display: none;"
+>
+  @csrf
+
+  <div class="col-md-3">
+    <input type="text" name="title" class="form-control" placeholder="Nama Kamar" required>
+  </div>
+
+  <div class="col-md-2">
+    <input type="number" step="0.01" name="harga_per_malam" class="form-control" placeholder="Harga / malam" required>
+  </div>
+    <div class="col-md-2">
+    <input type="number" step="0.01" name="price" class="form-control" placeholder="Harga / malam" required>
+  </div>
+
+  <div class="col-md-2">
+    <input type="number" name="kapasitas" class="form-control" placeholder="Kapasitas" min="1" required>
+  </div>
+
+  <div class="col-md-2">
+    <input type="text" name="rooms_type" class="form-control" placeholder="Tipe Kamar" required>
+  </div>
+
+  <div class="col-md-3">
+    <input type="file" name="picture" class="form-control" required>
+  </div>
+
+  <div class="col-md-12">
+    <textarea name="description" class="form-control" placeholder="Deskripsi Kamar" rows="3" required></textarea>
+  </div>
+
+  <div class="col-12">
+    <button class="btn btn-primary">Tambah Kamar</button>
+  </div>
+</form>
+
 
     {{-- List Rooms --}}
     <div class="row g-4">

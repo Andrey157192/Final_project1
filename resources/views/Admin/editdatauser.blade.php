@@ -5,7 +5,7 @@
     <div class="card-body">
         <h4 class="card-title">Edit Data User</h4>
 
-        <form action="{{ route('datauser.Update', $reservasi->id) }}" method="POST">
+        <form action="{{ route('reservasi.update', $reservasi->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -43,7 +43,7 @@
             </div>
 
             <button class="btn btn-success mt-2" type="submit">Simpan Perubahan</button>
-            <a href="{{ route('datauser.index') }}" class="btn btn-secondary mt-2">Kembali</a>
+            <a href="{{ route('reservasi.index') }}" class="btn btn-secondary mt-2">Kembali</a>
         </form>
     </div>
 </div>

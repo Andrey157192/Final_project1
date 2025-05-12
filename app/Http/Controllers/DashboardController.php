@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use App\Models\Customer;
 use App\Models\Ulasan;
 use App\Models\AboutSetting;
 use App\Models\Leadership;
@@ -43,22 +45,34 @@ class DashboardController extends Controller
 
 
     public function storeRoom(Request $request)
-    {
-        $data = $request->validate([
-            'title'       => 'required|string|max:255',
-            'price'       => 'required|numeric',
-            'description' => 'nullable|string',
-            'photo'       => 'required|image',
-        ]);
-        $path = $request->file('photo')->store('rooms', 'public');
-        Room::create([
-            'title'      => $data['title'],
-            'price'      => $data['price'],
-            'description'=> $data['description'],
-            'photo_path' => $path,
-        ]);
-        return back()->with('success', 'Room berhasil ditambahkan.');
-    }
+{
+    $data = $request->validate([
+        'title'          => 'required|string|max:255',
+        'rooms_type'     => 'required|string|max:255',
+        'harga_per_malam'=> 'required|numeric',
+        'price'=> 'required|numeric',
+        'kapasitas'      => 'required|integer|min:1',
+        'description'    => 'nullable|string',
+        'picture'        => 'required|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    $path = $request->file('picture')->store('rooms', 'public');
+ 
+
+    Room::create([
+        'created_by'      => Auth::user()->id,
+        'title'           => $data['title'],
+        'description'     => $data['description'],
+        'picture'         => $path,
+        'kapasitas'       => $data['kapasitas'],
+        'rooms_type'      => $data['rooms_type'],
+        'harga_per_malam' => $data['harga_per_malam'],
+        'price' => $data['price'],
+    ]);
+
+    return back()->with('success', 'Room berhasil ditambahkan.');
+}
+
 
     public function updateRoom(Request $request, Room $room)
     {
@@ -229,87 +243,102 @@ public function destroyEvent(Event $event)
      */
     public function indexUlasan()
     {
-        $ulasans = Ulasan::latest()->get();
-        return view('admin.ulasan', compact('ulasans'));
+        $ratings = \App\Models\Rating::with('user')
+                    ->latest()
+                    ->get();
+        return view('admin.ulasan', compact('ratings'));
     }
 
     public function toggleUlasan($id)
     {
-        $ulasan = Ulasan::findOrFail($id);
-        $ulasan->is_approved = !$ulasan->is_approved;
-        $ulasan->save();
+        $rating = \App\Models\Rating::findOrFail($id);
+        $rating->approved = !$rating->approved;
+        $rating->save();
         return back()->with('success', 'Status ulasan diperbarui.');
     }
 
     /**
      * CRUD Data User
      */
-    public function users()
-{
-    // ambil dari tabel reservasi
-    $reservasis = Reservasi::all();
-    return view('Admin.datauser', compact('reservasis'));
-}
 
-public function storeUser(Request $request)
-{
-    $validated = $request->validate([
-        'name'     => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
-        'nik'      => ['required', 'digits:16'],
-        'address'  => ['required', 'regex:/^[\pL\s]+$/u'],
-        'status'   => ['required', 'in:Menikah,Belum Menikah'],
-        'checkin'  => ['required', 'date'],
-        'checkout' => ['required', 'date', 'after_or_equal:checkin'],
-    ], [
-        'name.regex'    => 'Nama hanya boleh berisi huruf dan spasi.',
-        'nik.digits'    => 'NIK harus terdiri dari tepat 16 digit angka.',
-        'address.regex' => 'Alamat hanya boleh berisi huruf dan spasi.',
-    ]);
-
-    try {
-        Reservasi::create($validated);
-        return back()->with('success', 'Reservasi berhasil ditambahkan.');
-    } catch (QueryException $e) {
-        return back()->with('error', 'Gagal menambahkan reservasi: ' . $e->getMessage());
+     
+    public function indexReservasi()
+    {
+        $customers = Reservasi::all();
+        $rooms     = Room::all();
+        return view('Admin.datauser', compact('customers','rooms'));
     }
-}
 
-public function editUser($id)
-{
-    $reservasi = Reservasi::findOrFail($id);
-    return view('Admin.editdatauser', compact('reservasi'));
-}
 
-public function updateUser(Request $request, $id)
-{
-    $validated = $request->validate([
-        'name'     => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
-        'nik'      => ['required', 'digits:16'],
-        'address'  => ['required', 'regex:/^[\pL\s]+$/u'],
-        'status'   => ['required', 'in:Menikah,Belum Menikah'],
-        'checkin'  => ['required', 'date'],
-        'checkout' => ['required', 'date', 'after_or_equal:checkin'],
-    ], [
-        'name.regex'    => 'Nama hanya boleh berisi huruf dan spasi.',
-        'nik.digits'    => 'NIK harus terdiri dari tepat 16 digit angka.',
-        'address.regex' => 'Alamat hanya boleh berisi huruf dan spasi.',
-    ]);
+    /** Form tambah reservasi */
+    public function createReservasi()
+    {
+        $customers = Reservasi::all();
+        
+        return view('Admin.createreservasi', compact('customers', 'rooms'));
+    }
 
-    $reservasi = Reservasi::findOrFail($id);
-    $reservasi->update($validated);
+    
 
-    return redirect()->route('reservasi.index')
-                     ->with('success', 'Reservasi berhasil diperbarui.');
-}
+    /** Simpan reservasi baru */
+    public function storeReservasi(Request $request)
+    {
+        $validated = $request->validate([
+            'id_customer'   => 'required|exists:customers,id',
+            'id_rooms'      => 'required|exists:rooms,id',
+            'checkIn_date'  => 'required|date',
+            'checkOut_date' => 'required|date|after_or_equal:checkIn_date',
+        ]);
 
-public function destroyUser($id)
-{
-    $reservasi = Reservasi::findOrFail($id);
-    $reservasi->delete();
+        try {
+            Reservasi::create([
+                'created_by'   => Auth::id(),
+                'id_customer'  => $validated['id_customer'],
+                'id_rooms'     => $validated['id_rooms'],
+                'checkIn_date' => $validated['checkIn_date'],
+                'checkOut_date'=> $validated['checkOut_date'],
+            ]);
+            return redirect()->route('reservasi.index')
+                             ->with('success', 'Reservasi berhasil ditambahkan.');
+        } catch (QueryException $e) {
+            return back()->with('error', 'Gagal menambahkan reservasi: ' . $e->getMessage());
+        }
+    }
 
-    return redirect()->route('reservasi.index')
-                     ->with('success', 'Reservasi berhasil dihapus.');
-}
+    /** Form edit reservasi */
+    public function editReservasi($id)
+    {
+        $reservasi = Reservasi::findOrFail($id);
+        $rooms     = Room::all();
+        return view('Admin.editreservasi', compact('reservasi', 'customers', 'rooms'));
+    }
+
+    /** Update data reservasi */
+    public function updateReservasi(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'id_customer'   => 'required|exists:customers,id',
+            'id_rooms'      => 'required|exists:rooms,id',
+            'checkIn_date'  => 'required|date',
+            'checkOut_date' => 'required|date|after_or_equal:checkIn_date',
+        ]);
+
+        $reservasi = Reservasi::findOrFail($id);
+        $reservasi->update($validated);
+
+        return redirect()->route('reservasi.index')
+                         ->with('success', 'Reservasi berhasil diperbarui.');
+    }
+
+    /** Hapus reservasi */
+    public function destroyReservasi($id)
+    {
+        $reservasi = Reservasi::findOrFail($id);
+        $reservasi->delete();
+
+        return redirect()->route('reservasi.index')
+                         ->with('success', 'Reservasi berhasil dihapus.');
+    }
 
 public function export()
 {

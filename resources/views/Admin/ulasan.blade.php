@@ -14,21 +14,26 @@
     @endif
 
     {{-- List Ulasan --}}
-    @forelse($ulasans as $ulasan)
+    @forelse($ratings as $rating)
       <div class="border p-3 rounded mb-3 shadow-sm">
-        <p><strong>Nama:</strong> {{ $ulasan->name ?? 'Anonim' }}</p>
-        <p><strong>Ulasan:</strong> {{ $ulasan->ulasan }}</p>
+        <p><strong>Nama:</strong> {{ $rating->user->name ?? 'Anonim' }}</p>
+        <p><strong>Rating:</strong> 
+          @for($i = 1; $i <= 5; $i++)
+            <i class="fas fa-star {{ $i <= $rating->rating ? 'text-warning' : 'text-muted' }}"></i>
+          @endfor
+        </p>
+        <p><strong>Ulasan:</strong> {{ $rating->comment }}</p>
         <p><strong>Status:</strong>
-          @if($ulasan->is_approved)
+          @if($rating->approved)
             <span class="text-success">Tampil</span>
           @else
             <span class="text-danger">Disembunyikan</span>
           @endif
         </p>
-        <form action="{{ route('admin.ulasan.toggle', $ulasan->id) }}" method="POST" style="display:inline-block;">
+        <form action="{{ route('admin.ulasan.toggle', $rating->id) }}" method="POST" style="display:inline-block;">
           @csrf
-          <button class="btn btn-sm {{ $ulasan->is_approved ? 'btn-warning' : 'btn-success' }}">
-            {{ $ulasan->is_approved ? 'Sembunyikan' : 'Tampilkan' }}
+          <button class="btn btn-sm {{ $rating->approved ? 'btn-warning' : 'btn-success' }}">
+            {{ $rating->approved ? 'Sembunyikan' : 'Tampilkan' }}
           </button>
         </form>
       </div>
