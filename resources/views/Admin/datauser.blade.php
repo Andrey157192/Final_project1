@@ -272,19 +272,22 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
       </div>
       <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label">Tanggal Mulai</label>
-          <input type="date" id="startDate" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Tanggal Akhir</label>
-          <input type="date" id="endDate" class="form-control" required>
-        </div>
+        <form id="exportForm" action="{{ route('export.reservasi') }}" method="POST">
+          @csrf
+          <div class="mb-3">
+            <label class="form-label">Tanggal Mulai</label>
+            <input type="date" name="startDate" id="startDate" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tanggal Akhir</label>
+            <input type="date" name="endDate" id="endDate" class="form-control" required>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="handleExport()">Export</button>
+        <button type="submit" class="btn btn-primary">Export</button>
       </div>
+        </form>
     </div>
   </div>
 </div>

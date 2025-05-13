@@ -5,10 +5,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\ExportController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\RatingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,10 @@ Route::middleware(['auth','role:user'])->group(function () {
 // ==========================
 Route::middleware(['auth','role:admin'])->group(function () {
 
+    //export
+    Route::post('/export-reservasi', [ExportController::class, 'exportReservasi'])->name('export.reservasi');
+
+
     // === Dashboard & General Pages ===
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/home', [AdminController::class, 'home'])->name('admin.home');
@@ -141,6 +146,9 @@ Route::middleware(['auth','role:admin'])->group(function () {
         Route::post('/admin/ratings/{id}/approve', [RatingController::class, 'approve'])->name('admin.ratings.approve');
         Route::delete('/admin/ratings/{id}', [RatingController::class, 'destroy'])->name('admin.ratings.destroy');
     });
+
+
+
 
 });
 Route::post('/book-now', [BookingController::class, 'booking'])->name('book.now')->middleware('auth');

@@ -31,21 +31,7 @@
         <p><strong>Kapasitas:</strong> {{ $detail->capacity ?? 'Tidak diketahui' }} Orang</p>
         <p><strong>Harga:</strong> Rp {{ number_format($detail->price, 0, ',', '.') }} / malam</p>
 
-        @if(Auth::check())
-        <a href="{{ route('book.now') }}" class="btn-book">
-            <img src="{{ asset('images/whatsapp-icon.png') }}" alt="WhatsApp Icon" />
-            Book Now
-        </a>
-        @else
-        <a href="{{ route('login') }}" class="btn-book">
-            <img src="{{ asset('images/whatsapp-icon.png') }}" alt="WhatsApp Icon" />
-            Silakan Login untuk Booking
-        </a>
-        @endif
-      </div>
-    </section>
-
-    {{-- Data for Wa --}}
+          {{-- Data for Wa --}}
     @if(Auth::check())
         <form action="{{ route('book.now') }}" method="POST">
         @csrf
@@ -67,6 +53,10 @@
         Silakan Login untuk Booking
         </a>
     @endif
+      </div>
+    </section>
+
+  
 
 
     <!-- JavaScript -->
