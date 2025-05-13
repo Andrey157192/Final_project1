@@ -130,6 +130,7 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::put   ('admin/reservasi/{id}',       [DashboardController::class, 'updateReservasi'])->name('reservasi.update');
     Route::delete('admin/reservasi/{id}',       [DashboardController::class, 'destroyReservasi'])->name('reservasi.destroy');
 
+
     // === RATINGS ===
     Route::get('/admin/ratings', [RatingController::class, 'index'])->name('admin.ratings');
     Route::post('/admin/ratings/{id}/approve', [RatingController::class, 'approve'])->name('ratings.approve');

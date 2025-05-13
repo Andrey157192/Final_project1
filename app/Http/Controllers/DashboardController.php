@@ -15,8 +15,6 @@ use App\Models\HotelView;
 use App\Models\Room;
 use App\Models\Event;
 use App\Models\Reservasi;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\DataUserExport;
 
 class DashboardController extends Controller
 {
@@ -399,5 +397,60 @@ class DashboardController extends Controller
         return view('user.pages.index');
     }
 
+    public function exportReservasi(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date'
+        ]);
+
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        $reservations = Reservasi::whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+            ->get();
+
+        $filename = 'reservasi_' . date('Y-m-d_His') . '.csv';
+        
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+
+        $handle = fopen('php://temp', 'r+');
+        
+        // Add headers
+        fputcsv($handle, [
+            'Nama Customer',
+            'NIK',
+            'Alamat',
+            'Status',
+            'Check-in',
+            'Check-out',
+            'Tanggal Dibuat'
+        ]);
+
+        // Add data rows
+        foreach ($reservations as $reservasi) {
+            fputcsv($handle, [
+                $reservasi->nama_customer,
+                $reservasi->nik ?? '-',
+                $reservasi->address ?? '-',
+                $reservasi->status ?? '-',
+                date('d/m/Y', strtotime($reservasi->checkIn_date)),
+                date('d/m/Y', strtotime($reservasi->checkOut_date)),
+                date('d/m/Y H:i:s', strtotime($reservasi->created_at))
+            ]);
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return response($content, 200, $headers);
+    }
 }
 
