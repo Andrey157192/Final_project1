@@ -17,6 +17,10 @@ class Reservasi extends Model
         'id_rooms',
         'checkIn_date',
         'checkOut_date',
+        'nik',
+        'address',
+        'status',
+        'nama_customer'
     ];
 
     /** Relasi ke User yang membuat reservasi */

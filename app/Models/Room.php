@@ -12,11 +12,11 @@ class Room extends Model
     protected $fillable = [
         'title',
         'kapasitas',
+        'price',
         'harga_per_malam',
         'picture',
         'rooms_type',
         'description',
-        'price',
         'created_by'
     ];
 

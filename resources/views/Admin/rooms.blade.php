@@ -9,6 +9,18 @@
     @if(session('success'))
       <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+    @if(session('error'))
+      <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
 
     {{-- Tombol Tambah & Search --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -20,52 +32,62 @@
         <button type="submit" class="btn btn-outline-primary">
           <i class="bi bi-search"></i>
         </button>
-      </form>``
+      </form>
     </div>
 
     {{-- Form Tambah Room (disembunyikan awalnya) --}}
-  <form
-  id="roomForm"
-  action="{{ route('admin.rooms.store') }}"
-  method="POST"
-  enctype="multipart/form-data"
-  class="row g-3 mb-5"
-  style="display: none;"
->
-  @csrf
+    <form
+      id="roomForm"
+      action="{{ route('admin.rooms.store') }}"
+      method="POST"
+      enctype="multipart/form-data"
+      class="row g-3 mb-5"
+      style="display: none;"
+    >
+      @csrf
 
-  <div class="col-md-3">
-    <input type="text" name="title" class="form-control" placeholder="Nama Kamar" required>
-  </div>
+      <div class="col-md-4">
+        <label class="form-label">Nama Kamar</label>
+        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" 
+               value="{{ old('title') }}" placeholder="Nama Kamar" required>
+      </div>
 
-  <div class="col-md-2">
-    <input type="number" step="0.01" name="harga_per_malam" class="form-control" placeholder="Harga / malam" required>
-  </div>
-    <div class="col-md-2">
-    <input type="number" step="0.01" name="price" class="form-control" placeholder="Harga / malam" required>
-  </div>
+      <div class="col-md-4">
+        <label class="form-label">Harga per Malam</label>
+        <input type="number" name="price" class="form-control @error('price') is-invalid @enderror" 
+               value="{{ old('price') }}" placeholder="Harga per malam" required>
+      </div>
 
-  <div class="col-md-2">
-    <input type="number" name="kapasitas" class="form-control" placeholder="Kapasitas" min="1" required>
-  </div>
+      <div class="col-md-4">
+        <label class="form-label">Kapasitas</label>
+        <input type="number" name="kapasitas" class="form-control @error('kapasitas') is-invalid @enderror" 
+               value="{{ old('kapasitas') }}" placeholder="Kapasitas" min="1" required>
+      </div>
 
-  <div class="col-md-2">
-    <input type="text" name="rooms_type" class="form-control" placeholder="Tipe Kamar" required>
-  </div>
+      <div class="col-md-4">
+        <label class="form-label">Tipe Kamar</label>
+        <input type="text" name="rooms_type" class="form-control @error('rooms_type') is-invalid @enderror" 
+               value="{{ old('rooms_type') }}" placeholder="Contoh: Standard, Suite, dll" required>
+      </div>
 
-  <div class="col-md-3">
-    <input type="file" name="picture" class="form-control" required>
-  </div>
+      <div class="col-md-4">
+        <label class="form-label">Foto Kamar</label>
+        <input type="file" name="picture" class="form-control @error('picture') is-invalid @enderror" 
+               accept="image/*" required>
+      </div>
 
-  <div class="col-md-12">
-    <textarea name="description" class="form-control" placeholder="Deskripsi Kamar" rows="3" required></textarea>
-  </div>
+      <div class="col-12">
+        <label class="form-label">Deskripsi Kamar</label>
+        <textarea name="description" class="form-control @error('description') is-invalid @enderror" 
+                  placeholder="Deskripsi detail tentang kamar" rows="3" required>{{ old('description') }}</textarea>
+      </div>
 
-  <div class="col-12">
-    <button class="btn btn-primary">Tambah Kamar</button>
-  </div>
-</form>
-
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-plus-circle me-2"></i>Tambah Kamar
+        </button>
+      </div>
+    </form>
 
     {{-- List Rooms --}}
     <div class="row g-4">
@@ -73,7 +95,7 @@
         <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch">
           <div class="card shadow-sm w-100">
             <img
-              src="{{ asset('storage/'.$room->photo_path) }}"
+              src="{{ asset('storage/'.$room->picture) }}"
               class="card-img-top"
               alt="{{ $room->title }}"
               style="height:150px; object-fit:cover;"

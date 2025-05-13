@@ -94,19 +94,49 @@
       <form id="reservasiForm" action="{{ route('reservasi.store') }}" method="POST" style="display: none;">
   @csrf
   <div class="row g-3">
-    <!-- PILIH CUSTOMER -->
+    <!-- INPUT NAMA CUSTOMER -->
     <div class="col-md-6">
       <div class="card form-card p-3">
-        <label class="form-label">Pilih Customer</label>
+        <label class="form-label">Nama Customer</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-          <select name="id_customer" class="form-select" required>
-            <option value="">-- Pilih Customer --</option>
-            @foreach($customers as $customer)
-              <option value="{{ $customer->id }}" {{ old('id_customer') == $customer->id ? 'selected' : '' }}>
-                {{ $customer->name }} ({{ $customer->email }})
-              </option>
-            @endforeach
+          <input type="text" name="nama_customer" class="form-control" placeholder="Masukkan nama customer" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- PILIH KAMAR -->
+    <div class="col-md-6">
+      <div class="card form-card p-3">
+        <label class="form-label">Identity Number (KTP)</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+          <input type="text" name="nik" class="form-control" value="{{ old('nik') }}" placeholder="Masukkan NIK (opsional)">
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT ADDRESS -->
+    <div class="col-md-6">
+      <div class="card form-card p-3">
+        <label class="form-label">Address</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-house-door"></i></span>
+          <input type="text" name="address" class="form-control" value="{{ old('address') }}" placeholder="Masukkan alamat (opsional)">
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT STATUS -->
+    <div class="col-md-6">
+      <div class="card form-card p-3">
+        <label class="form-label">Status</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+          <select name="status" class="form-select">
+            <option value="">-- Pilih Status (opsional) --</option>
+            <option value="Single" {{ old('status') == 'Single' ? 'selected' : '' }}>Single</option>
+            <option value="Married" {{ old('status') == 'Married' ? 'selected' : '' }}>Married</option>
           </select>
         </div>
       </div>
@@ -183,21 +213,27 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($customers as $reservasi)
+            @foreach ($reservations as $reservasi)
               <tr>
-               <td>{{ $reservasi->customer->name ?? '-' }}</td>
-                <td>{{ $reservasi->customer->nik ?? '-' }}</td>
-                <td>{{ $reservasi->customer->address ?? '-' }}</td>
-                <td>{{ $reservasi->customer->status ?? '-' }}</td>
-                <td>{{ $reservasi->checkIn_date }}</td>
-                <td>{{ $reservasi->checkOut_date }}</td>
-
-                  <a href="{{ route('reservasi.edit', $reservasi->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                  <form action="{{ route('reservasi.destroy', $reservasi->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                  </form>
+                <td>{{ $reservasi->nama_customer }}</td>
+                <td>{{ $reservasi->nik ?? '-' }}</td>
+                <td>{{ $reservasi->address ?? '-' }}</td>
+                <td>{{ $reservasi->status ?? '-' }}</td>
+                <td>{{ date('d/m/Y', strtotime($reservasi->checkIn_date)) }}</td>
+                <td>{{ date('d/m/Y', strtotime($reservasi->checkOut_date)) }}</td>
+                <td class="text-center">
+                  <div class="btn-group" role="group">
+                    <a href="{{ route('reservasi.edit', $reservasi->id) }}" class="btn btn-sm btn-warning me-2">
+                      <i class="bi bi-pencil-fill"></i> Edit
+                    </a>
+                    <form action="{{ route('reservasi.destroy', $reservasi->id) }}" method="POST" class="d-inline">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus reservasi ini?')">
+                        <i class="bi bi-trash-fill"></i> Hapus
+                      </button>
+                    </form>
+                  </div>
                 </td>
               </tr>
             @endforeach

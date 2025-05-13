@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 use App\Models\User;
 use App\Models\Customer;
@@ -31,48 +32,63 @@ class DashboardController extends Controller
      * CRUD Rooms
      */
     public function rooms(Request $request)
-{
-    $query = Room::query();
+    {
+        $query = Room::query();
 
-    if ($request->has('search') && $request->search !== null) {
-        $query->where('title', 'like', '%' . $request->search . '%');
+        if ($request->has('search') && $request->search !== null) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $rooms = $query->latest()->get();
+        return view('Admin.rooms', compact('rooms'));
     }
 
-    $rooms = $query->latest()->get();
-
-    return view('Admin.rooms', compact('rooms'));
-}
-
-
     public function storeRoom(Request $request)
-{
-    $data = $request->validate([
-        'title'          => 'required|string|max:255',
-        'rooms_type'     => 'required|string|max:255',
-        'harga_per_malam'=> 'required|numeric',
-        'price'=> 'required|numeric',
-        'kapasitas'      => 'required|integer|min:1',
-        'description'    => 'nullable|string',
-        'picture'        => 'required|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
+    {
+        try {
+            Log::info('Mencoba menambah kamar baru');
+            
+            $data = $request->validate([
+                'title'          => 'required|string|max:255',
+                'rooms_type'     => 'required|string|max:255',
+                'price'          => 'required|numeric|min:0',
+                'kapasitas'      => 'required|integer|min:1',
+                'description'    => 'required|string',
+                'picture'        => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            ]);
 
-    $path = $request->file('picture')->store('rooms', 'public');
- 
+            Log::info('Data tervalidasi', $data);
 
-    Room::create([
-        'created_by'      => Auth::user()->id,
-        'title'           => $data['title'],
-        'description'     => $data['description'],
-        'picture'         => $path,
-        'kapasitas'       => $data['kapasitas'],
-        'rooms_type'      => $data['rooms_type'],
-        'harga_per_malam' => $data['harga_per_malam'],
-        'price' => $data['price'],
-    ]);
+            if (!$request->hasFile('picture')) {
+                Log::error('Foto kamar tidak ditemukan');
+                return back()->with('error', 'Foto kamar wajib diunggah')->withInput();
+            }
 
-    return back()->with('success', 'Room berhasil ditambahkan.');
-}
+            // Upload gambar
+            $path = $request->file('picture')->store('rooms', 'public');
+            Log::info('Foto tersimpan di: ' . $path);
 
+            // Buat record baru
+            $room = Room::create([
+                'title'       => $data['title'],
+                'rooms_type'  => $data['rooms_type'],
+                'price'       => $data['price'],
+                'harga_per_malam' => $data['price'],
+                'kapasitas'   => $data['kapasitas'],
+                'description' => $data['description'],
+                'picture'     => $path,
+                'created_by'  => auth()->id() ?? 1
+            ]);
+
+            Log::info('Kamar berhasil dibuat dengan ID: ' . $room->id);
+
+            return redirect()->route('admin.rooms.index')->with('success', 'Kamar berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            Log::error('Error saat menambah kamar: ' . $e->getMessage());
+            Log::error($e->getTraceAsString());
+            return back()->with('error', 'Gagal menambahkan kamar: ' . $e->getMessage())->withInput();
+        }
+    }
 
     public function updateRoom(Request $request, Room $room)
     {
@@ -176,62 +192,61 @@ class DashboardController extends Controller
      * Halaman Events & Contact
      */
     // Menampilkan daftar event + form tambah
-public function listEvents()
-{
-    $events = Event::latest()->get();
-    return view('Admin.events', compact('events'));
-}
-
-// Simpan event baru
-public function storeEvent(Request $request)
-{
-    $data = $request->validate([
-        'title'       => 'required|string|max:255',
-        'description' => 'required|string',
-        'start_date'  => 'required|date',
-        'end_date'    => 'required|date|after_or_equal:start_date',
-        'image'       => 'required|image',
-    ]);
-
-    $path = $request->file('image')->store('events','public');
-    $data['image_path'] = $path;
-
-    Event::create($data);
-    return back()->with('success', 'Event berhasil ditambahkan.');
-}
-
-// Tampilkan halaman detail event
-public function showEvent(Event $event)
-{
-    return view('Admin.event-detail', compact('event'));
-}
-
-// Update event
-public function updateEvent(Request $request, Event $event)
-{
-    $data = $request->validate([
-        'title'       => 'required|string|max:255',
-        'description' => 'required|string',
-        'start_date'  => 'required|date',
-        'end_date'    => 'required|date|after_or_equal:start_date',
-        'image'       => 'nullable|image',
-    ]);
-
-    if($request->hasFile('image')){
-        $event->image_path = $request->file('image')->store('events','public');
+    public function listEvents()
+    {
+        $events = Event::latest()->get();
+        return view('Admin.events', compact('events'));
     }
 
-    $event->update($data);
-    return back()->with('success', 'Event berhasil diperbarui.');
-}
+    // Simpan event baru
+    public function storeEvent(Request $request)
+    {
+        $data = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string',
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date|after_or_equal:start_date',
+            'image'       => 'required|image',
+        ]);
 
-// Hapus event
-public function destroyEvent(Event $event)
-{
-    $event->delete();
-    return back()->with('success', 'Event berhasil dihapus.');
-}
+        $path = $request->file('image')->store('events','public');
+        $data['image_path'] = $path;
 
+        Event::create($data);
+        return back()->with('success', 'Event berhasil ditambahkan.');
+    }
+
+    // Tampilkan halaman detail event
+    public function showEvent(Event $event)
+    {
+        return view('Admin.event-detail', compact('event'));
+    }
+
+    // Update event
+    public function updateEvent(Request $request, Event $event)
+    {
+        $data = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string',
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date|after_or_equal:start_date',
+            'image'       => 'nullable|image',
+        ]);
+
+        if($request->hasFile('image')){
+            $event->image_path = $request->file('image')->store('events','public');
+        }
+
+        $event->update($data);
+        return back()->with('success', 'Event berhasil diperbarui.');
+    }
+
+    // Hapus event
+    public function destroyEvent(Event $event)
+    {
+        $event->delete();
+        return back()->with('success', 'Event berhasil dihapus.');
+    }
 
     public function contact()
     {
@@ -264,9 +279,9 @@ public function destroyEvent(Event $event)
      
     public function indexReservasi()
     {
-        $customers = Reservasi::all();
-        $rooms     = Room::all();
-        return view('Admin.datauser', compact('customers','rooms'));
+        $reservations = Reservasi::with(['customer', 'room'])->latest()->get();
+        $rooms = Room::all();
+        return view('Admin.datauser', compact('reservations', 'rooms'));
     }
 
 
@@ -284,20 +299,37 @@ public function destroyEvent(Event $event)
     public function storeReservasi(Request $request)
     {
         $validated = $request->validate([
-            'id_customer'   => 'required|exists:customers,id',
-            'id_rooms'      => 'required|exists:rooms,id',
-            'checkIn_date'  => 'required|date',
-            'checkOut_date' => 'required|date|after_or_equal:checkIn_date',
+            'nama_customer' => 'required|string|max:255',
+            'nik'          => 'nullable|string|max:16',
+            'address'      => 'nullable|string',
+            'status'       => 'nullable|in:Single,Married',
+            'id_rooms'     => 'required|exists:rooms,id',
+            'checkIn_date' => 'required|date',
+            'checkOut_date'=> 'required|date|after_or_equal:checkIn_date',
         ]);
 
         try {
-            Reservasi::create([
-                'created_by'   => Auth::id(),
-                'id_customer'  => $validated['id_customer'],
-                'id_rooms'     => $validated['id_rooms'],
-                'checkIn_date' => $validated['checkIn_date'],
-                'checkOut_date'=> $validated['checkOut_date'],
+            // Create new user as customer (with minimal info)
+            $customer = User::create([
+                'name'     => $validated['nama_customer'],
+                'email'    => strtolower(str_replace(' ', '', $validated['nama_customer'])) . '@guest.com',
+                'password' => bcrypt('guest123'),
+                'role'     => 'customer'
             ]);
+
+            // Create reservation with customer details
+            Reservasi::create([
+                'created_by'    => Auth::id() ?? 1,
+                'id_customer'   => $customer->id,
+                'id_rooms'      => $validated['id_rooms'],
+                'checkIn_date'  => $validated['checkIn_date'],
+                'checkOut_date' => $validated['checkOut_date'],
+                'nik'          => $request->input('nik'),
+                'address'      => $request->input('address'),
+                'status'       => $request->input('status'),
+                'nama_customer'=> $validated['nama_customer']
+            ]);
+
             return redirect()->route('reservasi.index')
                              ->with('success', 'Reservasi berhasil ditambahkan.');
         } catch (QueryException $e) {
@@ -309,7 +341,8 @@ public function destroyEvent(Event $event)
     public function editReservasi($id)
     {
         $reservasi = Reservasi::findOrFail($id);
-        $rooms     = Room::all();
+        $rooms = Room::all();
+        $customers = User::where('role', 'customer')->get();
         return view('Admin.editreservasi', compact('reservasi', 'customers', 'rooms'));
     }
 
@@ -317,14 +350,32 @@ public function destroyEvent(Event $event)
     public function updateReservasi(Request $request, $id)
     {
         $validated = $request->validate([
-            'id_customer'   => 'required|exists:customers,id',
-            'id_rooms'      => 'required|exists:rooms,id',
-            'checkIn_date'  => 'required|date',
-            'checkOut_date' => 'required|date|after_or_equal:checkIn_date',
+            'nama_customer' => 'required|string|max:255',
+            'nik'          => 'nullable|string|max:16',
+            'address'      => 'nullable|string',
+            'status'       => 'nullable|in:Single,Married',
+            'id_rooms'     => 'required|exists:rooms,id',
+            'checkIn_date' => 'required|date',
+            'checkOut_date'=> 'required|date|after_or_equal:checkIn_date',
         ]);
 
         $reservasi = Reservasi::findOrFail($id);
-        $reservasi->update($validated);
+        
+        // Update only basic info in users table
+        $customer = User::findOrFail($reservasi->id_customer);
+        $customer->name = $validated['nama_customer'];
+        $customer->save();
+
+        // Update reservation with all customer details
+        $reservasi->update([
+            'id_rooms'      => $validated['id_rooms'],
+            'checkIn_date'  => $validated['checkIn_date'],
+            'checkOut_date' => $validated['checkOut_date'],
+            'nik'          => $request->input('nik'),
+            'address'      => $request->input('address'),
+            'status'       => $request->input('status'),
+            'nama_customer'=> $validated['nama_customer']
+        ]);
 
         return redirect()->route('reservasi.index')
                          ->with('success', 'Reservasi berhasil diperbarui.');
@@ -340,13 +391,13 @@ public function destroyEvent(Event $event)
                          ->with('success', 'Reservasi berhasil dihapus.');
     }
 
-public function export()
-{
-    // return Excel::download(new DataUserExport, 'data_user.xlsx');
-}
-public function home(){
-    return view('user.pages.index');
-  }
+    public function export()
+    {
+        // return Excel::download(new DataUserExport, 'data_user.xlsx');
+    }
+    public function home(){
+        return view('user.pages.index');
+    }
 
 }
 

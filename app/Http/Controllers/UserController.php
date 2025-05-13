@@ -33,12 +33,25 @@ public function events(){
     }
 
     public function about()
-{
-    $settings = \App\Models\AboutSetting::first();
-    $leaderships = \App\Models\Leadership::all();
-    $views = \App\Models\HotelView::all(); // atau sesuai nama model kamu
-    return view('user.pages.about', compact('settings', 'leaderships', 'views'));
-}
+    {
+        // Get or create default settings
+        $settings = \App\Models\AboutSetting::firstOrCreate(
+            [],  // empty condition = find first or create new
+            [
+                'description' => 'Welcome to Hotel Balige Beach, your perfect getaway destination by the shores of Lake Toba.',
+                'history' => 'Our hotel has been serving guests since its establishment, providing comfortable accommodations and memorable experiences.',
+                'phone' => '+62 123 4567 890',
+                'email' => 'contact@hotelbalige.com',
+                'address' => 'Jl. Tengku Rizal Nurdin, Parsaoran I, Balige, Toba, Sumatera Utara',
+                'maps_link' => 'https://maps.google.com'
+            ]
+        );
+
+        $leaderships = \App\Models\Leadership::all();
+        $views = \App\Models\HotelView::all();
+
+        return view('user.pages.about', compact('settings', 'leaderships', 'views'));
+    }
 
 public function rooms(){
    $rooms= DB:: table ('rooms')->get();

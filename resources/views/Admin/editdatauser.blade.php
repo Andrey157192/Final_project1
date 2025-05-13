@@ -11,7 +11,7 @@
 
             <div class="form-group">
                 <label>Nama</label>
-                <input type="text" name="name" class="form-control" value="{{ $reservasi->name }}" required>
+                <input type="text" name="nama_customer" class="form-control" value="{{ $reservasi->nama_customer }}" required>
             </div>
 
             <div class="form-group">
@@ -27,19 +27,19 @@
             <div class="form-group">
                 <label>Status</label>
                 <select name="status" class="form-control" required>
-                    <option value="Menikah" {{ $reservasi->status == 'Menikah' ? 'selected' : '' }}>Menikah</option>
-                    <option value="Belum Menikah" {{ $reservasi->status == 'Belum Menikah' ? 'selected' : '' }}>Belum Menikah</option>
+                    <option value="Single" {{ $reservasi->status == 'Single' ? 'selected' : '' }}>Single</option>
+                    <option value="Married" {{ $reservasi->status == 'Married' ? 'selected' : '' }}>Married</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Check-in</label>
-                <input type="date" name="checkin" class="form-control" value="{{ $reservasi->checkin }}" required>
+                <input type="date" name="checkIn_date" class="form-control" value="{{ $reservasi->checkIn_date }}" required>
             </div>
 
             <div class="form-group">
                 <label>Check-out</label>
-                <input type="date" name="checkout" class="form-control" value="{{ $reservasi->checkout }}" required>
+                <input type="date" name="checkOut_date" class="form-control" value="{{ $reservasi->checkOut_date }}" required>
             </div>
 
             <button class="btn btn-success mt-2" type="submit">Simpan Perubahan</button>
