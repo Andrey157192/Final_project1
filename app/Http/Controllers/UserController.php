@@ -29,6 +29,17 @@ public function events(){
     public function roomsDetail($id)
     {
         $detail = Room::findOrFail($id);
+        if (!$detail) {
+            abort(404);
+        }
+        
+        // For debugging
+        \Log::info('Room Detail:', [
+            'id' => $detail->id,
+            'title' => $detail->title,
+            'picture' => $detail->picture
+        ]);
+        
         return view('room.kamar_detail', compact('detail'));
     }
 
@@ -54,9 +65,9 @@ public function events(){
     }
 
 public function rooms(){
-   $rooms= DB:: table ('rooms')->get();
+   $dataRooms= DB:: table ('rooms')->get();
 
-    return view('user.pages.rooms',compact('rooms'));
+    return view('user.pages.rooms',compact('dataRooms'));
 }
 
 

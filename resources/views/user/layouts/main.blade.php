@@ -5,3 +5,5 @@
 </main>
 
 @include('user.layouts.footer')
+
+@include('user.components.cookie-consent')

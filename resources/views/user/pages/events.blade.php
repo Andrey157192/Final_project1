@@ -74,7 +74,7 @@
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade-up">
             <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 <span class="fa fa-star text-primary"></span>   Hotel</span>
-            <h1 class="heading">A Best Place To Stay</h1>
+            <h1 class="heading">Events</h1>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
     <div class="row justify-content-center text-center mb-5">
       <div class="col-md-7">
         <h2 class="heading" data-aos="fade-up">Events</h2>
-        <p data-aos="fade-up">…deskripsi…</p>
+
       </div>
     </div>
     <div class="row">

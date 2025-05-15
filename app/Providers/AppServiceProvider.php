@@ -3,27 +3,24 @@
 namespace App\Providers;
 
 use App\Models\AboutSetting;
-use Illuminate\Support\Facades\View;
+use App\Actions\ResetUserPassword;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\Contracts\ResetsUserPasswords;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        $this->app->bind(ResetsUserPasswords::class, ResetUserPassword::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         if (Schema::hasTable('about_settings')) {
-            $about = AboutSetting::first(); // atau kode lain yang memanggil tabel ini
+            $about = AboutSetting::first();
+            // Tambah logic jika perlu men-share $about ke view
+            // View::share('about', $about);
         }
     }
 }

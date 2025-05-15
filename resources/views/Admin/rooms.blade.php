@@ -146,6 +146,7 @@
                 </div>
                 <div class="modal-body row g-3">
                   <div class="col-12">
+                    <label class="form-label">Nama Kamar</label>
                     <input
                       name="title"
                       value="{{ $room->title }}"
@@ -154,6 +155,7 @@
                     >
                   </div>
                   <div class="col-6">
+                    <label class="form-label">Harga per Malam</label>
                     <input
                       name="price"
                       type="number"
@@ -163,6 +165,28 @@
                     >
                   </div>
                   <div class="col-6">
+                    <label class="form-label">Kapasitas</label>
+                    <input
+                      name="kapasitas"
+                      type="number"
+                      value="{{ $room->kapasitas }}"
+                      class="form-control"
+                      min="1"
+                      required
+                    >
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Tipe Kamar</label>
+                    <input
+                      name="rooms_type"
+                      type="text"
+                      value="{{ $room->rooms_type }}"
+                      class="form-control"
+                      required
+                    >
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Foto Kamar</label>
                     <input
                       name="photo"
                       type="file"
@@ -170,6 +194,7 @@
                     >
                   </div>
                   <div class="col-12">
+                    <label class="form-label">Deskripsi</label>
                     <textarea
                       name="description"
                       class="form-control"

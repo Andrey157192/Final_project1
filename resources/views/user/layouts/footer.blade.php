@@ -18,23 +18,15 @@
         </ul>
       </div>
       <div class="col-md-3 mb-5 pr-md-5 contact-info">
-        <p><span class="d-block"><span class="ion-ios-location h5 mr-3 text-primary"></span>Address:</span> <span>198 West 21th Street, Suite 721 New York NY 10016</span></p>
-        <p><span class="d-block"><span class="ion-ios-telephone h5 mr-3 text-primary"></span>Phone:</span> <span>(+1) 435 3533</span></p>
-        <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span>Email:</span> <span>info@domain.com</span></p>
+        <p><span class="d-block"><span class="ion-ios-location h5 mr-3 text-primary"></span>Address:</span> <span>83V8+FRC, Jl. Guru Mangaloksa, Somalaing, Kec. Balige, Toba, Sumatera Utara 22312</span></p>
+        <p><span class="d-block"><span class="ion-ios-telephone h5 mr-3 text-primary"></span>Phone:</span> <span>081372155751</span></p>
+        <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span>Email:</span> <span>hotelbaligebeach@gmail.com</span></p>
       </div>
-      <div class="col-md-3 mb-5">
-        <p>Sign up for our newsletter</p>
-        <form action="#" class="footer-newsletter">
-          <div class="form-group">
-            <input type="email" class="form-control" placeholder="Email...">
-            <button type="submit" class="btn"><span class="fa fa-paper-plane"></span></button>
-          </div>
-        </form>
-      </div>
+      
     </div>
     <div class="row pt-5">
       <p class="col-md-6 text-left">
-        &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Template by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+        &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved</a>
       </p>
       <p class="col-md-6 text-right social">
         <a href="#"><span class="fa fa-tripadvisor"></span></a>

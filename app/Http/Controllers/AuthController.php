@@ -23,6 +23,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            
+            // Set a session flag for new login to show cookie consent
+            $request->session()->put('show_cookie_consent', true);
 
             $user = Auth::user();
 

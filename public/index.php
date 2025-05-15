@@ -1,5 +1,9 @@
 <?php
 
+// Increase execution time limit
+set_time_limit(300);
+ini_set('max_execution_time', '300');
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 

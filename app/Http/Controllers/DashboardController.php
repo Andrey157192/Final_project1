@@ -90,17 +90,32 @@ class DashboardController extends Controller
 
     public function updateRoom(Request $request, Room $room)
     {
-        $data = $request->validate([
-            'title'       => 'required|string|max:255',
-            'price'       => 'required|numeric',
-            'description' => 'nullable|string',
-            'photo'       => 'nullable|image',
-        ]);
-        if ($request->hasFile('photo')) {
-            $room->photo_path = $request->file('photo')->store('rooms', 'public');
+        try {
+            $data = $request->validate([
+                'title'       => 'required|string|max:255',
+                'rooms_type'  => 'required|string|max:255', 
+                'price'       => 'required|numeric|min:0',
+                'kapasitas'   => 'required|integer|min:1',
+                'description' => 'nullable|string',
+                'photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ]);
+
+            // Process uploaded photo if exists
+            if ($request->hasFile('photo')) {
+                $path = $request->file('photo')->store('rooms', 'public');
+                $data['picture'] = $path; // Update picture field name to match the database
+            }
+
+            // Update harga_per_malam along with price
+            $data['harga_per_malam'] = $data['price'];
+
+            $room->update($data);
+            
+            return back()->with('success', 'Kamar berhasil diperbarui.');
+        } catch (\Exception $e) {
+            Log::error('Error saat mengupdate kamar: ' . $e->getMessage());
+            return back()->with('error', 'Gagal mengupdate kamar: ' . $e->getMessage())->withInput();
         }
-        $room->update($data);
-        return back()->with('success', 'Room berhasil diperbarui.');
     }
 
     public function destroyRoom(Room $room)

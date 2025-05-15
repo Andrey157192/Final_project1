@@ -3,6 +3,9 @@
 @section('content')
 
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <style>
         .room img {
             width: 100%;
@@ -78,8 +81,8 @@
           </div>
           <div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
             <h2 class="heading">Welcome!</h2>
-            <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p><a href="#" class="btn btn-primary text-white py-2 mr-3">Learn More</a> <span class="mr-3 font-family-serif"><em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774"  data-fancybox class="text-uppercase letter-spacing-1">See video</a></p>
+            <p class="mb-4">Bukan sekadar tempat menginap, tapi tempat di mana setiap perjalanan berubah menjadi kenangan. Temukan keindahan, kenyamanan, dan keramahan yang menyatu dalam setiap sudut kami.</p>
+            <p><a href="events" class="btn btn-primary text-white py-2 mr-3"></a> <span class="mr-3 font-family-serif"><em>or</em></span> <a href="https://youtu.be/FZ6hNPt72mE?si=T7K3-aW6iLDQ-ZUi"  data-fancybox class="text-uppercase letter-spacing-1">See video</a></p>
           </div>
 
         </div>
@@ -91,7 +94,7 @@
         <div class="row justify-content-center text-center mb-5">
           <div class="col-md-7">
             <h2 class="heading" data-aos="fade-up">Rooms &amp; Suites</h2>
-            <p data-aos="fade-up" data-aos-delay="100">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+            <p data-aos="fade-up" data-aos-delay="100">Di balik batas kesibukan dunia, kami hadir sebagai tempat beristirahat yang nyaman, tenang, dan penuh cerita. Setiap sudut kami rancang untuk menghadirkan kehangatan, kenyamanan, dan layanan yang berkesan..</p>
           </div>
         </div>
         <div class="row">
@@ -111,30 +114,6 @@
             @endforeach
 
 
-          <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="room/family" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Family Room</h2>
-                <span class="text-uppercase letter-spacing-1">120$ / per night</span>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="room/presidential" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Presidential Room</h2>
-                <span class="text-uppercase letter-spacing-1">250$ / per night</span>
-              </div>
-            </a>
-          </div>
-
 
         </div>
       </div>
@@ -146,39 +125,103 @@
         <div class="row justify-content-center text-center mb-5">
           <div class="col-md-7">
             <h2 class="heading" data-aos="fade-up">Photos</h2>
-            <p data-aos="fade-up" data-aos-delay="100">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+            <p data-aos="fade-up" data-aos-delay="100">"Jauh dari hiruk pikuk kota, di tepi tenangnya Danau Toba, berdiri Hotel Balige Beach yang menawarkan ketenangan dan keindahan alam. Di antara gemericik ombak dan semilir angin sore, setiap tamu diajak merasakan kenyamanan dan pesona panorama yang tak terlupakan."</p>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="home-slider major-caousel owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
-              <div class="slider-item">
-                <a href="images/slider-1.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-1.jpg" alt="Image placeholder" class="img-fluid"></a>
-              </div>
-              <div class="slider-item">
-                <a href="images/slider-2.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-2.jpg" alt="Image placeholder" class="img-fluid"></a>
-              </div>
-              <div class="slider-item">
-                <a href="images/slider-3.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-3.jpg" alt="Image placeholder" class="img-fluid"></a>
-              </div>
-              <div class="slider-item">
-                <a href="images/slider-4.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-4.jpg" alt="Image placeholder" class="img-fluid"></a>
-              </div>
-              <div class="slider-item">
-                <a href="images/slider-5.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-5.jpg" alt="Image placeholder" class="img-fluid"></a>
-              </div>
-              <div class="slider-item">
-                <a href="images/slider-6.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-6.jpg" alt="Image placeholder" class="img-fluid"></a>
-              </div>
-              <div class="slider-item">
-                <a href="images/slider-7.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-7.jpg" alt="Image placeholder" class="img-fluid"></a>
-              </div>
-            </div>
-            <!-- END slider -->
-          </div>
+        <style>
+  .slider-item {
+    border-radius: 10px;
+    overflow: hidden;
+  }
 
-        </div>
+  .slider-item img {
+    width: 100%;
+    aspect-ratio: 16 / 9;        /* Rasio 16:9 */
+    object-fit: cover;           /* Potong gambar agar proporsional */
+    object-position: center;
+    display: block;
+  }
+
+  /* Responsive image wrap */
+.img-wrap {
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+}
+.img-wrap img {
+  transition: transform 0.3s ease;
+}
+.img-wrap:hover img {
+  transform: scale(1.05);
+}
+
+/* Room info hover */
+.room-info:hover {
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+/* Fancybox image hover */
+.slider-item img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+.slider-item img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Section headings */
+.heading {
+  font-weight: 700;
+  font-size: 2.2rem;
+}
+
+</style>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="home-slider major-caousel owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
+
+      <div class="slider-item">
+        <a href="images/slider-1.png" data-fancybox="images" data-caption="Caption for this image">
+          <img src="images/slider-1.png" alt="Image 1" class="img-fluid">
+        </a>
       </div>
+
+      <div class="slider-item">
+        <a href="images/slider-2.png" data-fancybox="images" data-caption="Caption for this image">
+          <img src="images/slider-2.png" alt="Image 2" class="img-fluid">
+        </a>
+      </div>
+
+      <div class="slider-item">
+        <a href="images/slider-3.png" data-fancybox="images" data-caption="Caption for this image">
+          <img src="images/slider-3.png" alt="Image 3" class="img-fluid">
+        </a>
+      </div>
+
+      <div class="slider-item">
+        <a href="images/slider-4.png" data-fancybox="images" data-caption="Caption for this image">
+          <img src="images/slider-4.png" alt="Image 4" class="img-fluid">
+        </a>
+      </div>
+
+      <div class="slider-item">
+        <a href="images/slider-5.png" data-fancybox="images" data-caption="Caption for this image">
+          <img src="images/slider-5.png" alt="Image 5" class="img-fluid">
+        </a>
+      </div>
+
+    </div> <!-- END owl-carousel -->
+  </div>
+</div>
+
     </section>
     <!-- END section -->
 
@@ -187,7 +230,7 @@
         <div class="row justify-content-center text-center mb-5">
           <div class="col-md-7">
             <h2 class="heading text-white" data-aos="fade">Our Restaurant Menu</h2>
-            <p class="text-white" data-aos="fade" data-aos-delay="100">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+            <p class="text-white" data-aos="fade" data-aos-delay="100">Lebih dari sekadar tempat makan—kami adalah ruang untuk menikmati rasa, berbagi cerita, dan menciptakan momen. Selamat datang di tempat di mana setiap hidangan disajikan dengan hati.</p>
           </div>
         </div>
         <div class="food-menu-tabs" data-aos="fade">
@@ -205,123 +248,90 @@
           <div class="tab-content py-5" id="myTabContent">
 
 
-            <div class="tab-pane fade show active text-left" id="mains" role="tabpanel" aria-labelledby="mains-tab">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$20.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Murgh Tikka Masala</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$35.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Fish Moilee</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$15.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Safed Gosht</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$10.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">French Toast Combo</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$8.35</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Vegie Omelet</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$22.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Chorizo &amp; Egg Omelet</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                </div>
-              </div>
+            <!-- MAINS -->
+<div class="tab-pane fade show active text-left" id="mains" role="tabpanel" aria-labelledby="mains-tab">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 35.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Ayam Geprek</a></h3>
+        <p class="text-white text-opacity-7">Spicy smashed fried chicken served with rice and sambal.</p>
+      </div>
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 38.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Ayam Penyet</a></h3>
+        <p class="text-white text-opacity-7">Traditional smashed fried chicken with sambal and rice.</p>
+      </div>
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 20.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Telur Geprek</a></h3>
+        <p class="text-white text-opacity-7">Egg-based alternative of geprek with sambal and rice.</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 5.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Nasi Putih</a></h3>
+        <p class="text-white text-opacity-7">Steamed white rice.</p>
+      </div>
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 10.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Tahu / Tempe</a></h3>
+        <p class="text-white text-opacity-7">Fried tofu or tempeh side dish.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-            </div> <!-- .tab-pane -->
+            <!-- DESSERTS -->
+<div class="tab-pane fade text-left" id="desserts" role="tabpanel" aria-labelledby="desserts-tab">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 5.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Puding Coklat</a></h3>
+        <p class="text-white text-opacity-7">Chocolate pudding dessert.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-            <div class="tab-pane fade text-left" id="desserts" role="tabpanel" aria-labelledby="desserts-tab">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$11.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Banana Split</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$72.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Sticky Toffee Pudding</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$26.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Pecan</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$42.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Apple Strudel</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$7.35</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Pancakes</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$22.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Ice Cream Sundae</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                </div>
-              </div>
-            </div> <!-- .tab-pane -->
-            <div class="tab-pane fade text-left" id="drinks" role="tabpanel" aria-labelledby="drinks-tab">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$32.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Spring Water</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$14.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Coke, Diet Coke, Coke Zero</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$93.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Orange Fanta</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$18.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Lemonade, Lemon Squash</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$38.35</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Sparkling Mineral Water</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                  <div class="food-menu mb-5">
-                    <span class="d-block text-primary h4 mb-3">$69.00</span>
-                    <h3 class="text-white"><a href="#" class="text-white">Lemon, Lime &amp; Bitters</a></h3>
-                    <p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  </div>
-                </div>
-              </div>
-            </div> <!-- .tab-pane -->
+           <!-- DRINKS -->
+<div class="tab-pane fade text-left" id="drinks" role="tabpanel" aria-labelledby="drinks-tab">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 3.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Air Mineral</a></h3>
+        <p class="text-white text-opacity-7">Bottled mineral water.</p>
+      </div>
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 4.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Teh Tawar Panas / Es</a></h3>
+        <p class="text-white text-opacity-7">Hot or iced unsweetened tea.</p>
+      </div>
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 5.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Teh Manis Panas / Es</a></h3>
+        <p class="text-white text-opacity-7">Hot or iced sweet tea.</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 5.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Jeruk Panas / Es</a></h3>
+        <p class="text-white text-opacity-7">Hot or iced orange juice.</p>
+      </div>
+      <div class="food-menu mb-5">
+        <span class="d-block text-primary h4 mb-3">Rp 5.000</span>
+        <h3 class="text-white"><a href="#" class="text-white">Nutrisari</a></h3>
+        <p class="text-white text-opacity-7">Instant fruit-flavored drink.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
           </div>
         </div>
       </div>
@@ -411,20 +421,20 @@
 
   <style>
     .testimonial-section {
-      background-color: #f8f9fa;
-      padding: 80px 0;
-    }
-    .slider-item {
-      background: white;
-      padding: 40px 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-      margin: 10px;
-      min-height: 300px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+    background-color: #F8F4E1;
+    padding: 80px 0;
+  }
+  .slider-item {
+    background: #F8F4E1;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    margin: 10px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
     .rating-display {
       font-size: 24px;
     }
@@ -525,6 +535,13 @@
         }
       });
     });
+
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
   </script>
 </section>
 
@@ -533,7 +550,7 @@
     <div class="row justify-content-center text-center mb-5">
       <div class="col-md-7">
         <h2 class="heading" data-aos="fade-up">Events</h2>
-        <p data-aos="fade-up">…deskripsi…</p>
+  
       </div>
     </div>
     <div class="row">

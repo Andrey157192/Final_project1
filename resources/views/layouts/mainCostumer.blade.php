@@ -17,12 +17,10 @@
   <link rel="stylesheet" href="{{ asset('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/vendors/ti-icons/css/themify-icons.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/js/select.dataTables.min.css') }}">
-  <!-- End plugin css for this page -->
-
-  <!-- inject:css -->
+  <!-- End plugin css for this page -->  <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('assets/css/vertical-layout-light/style.css') }}">
-
   <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
@@ -219,11 +217,12 @@
     </div>
     <!-- page-body-wrapper ends -->
   </div>
+
   <!-- container-scroller -->
 
   <!-- plugins:js -->
   <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
-  <!-- endinject -->
+
   <!-- Plugin js for this page -->
   <script src="{{ asset('assets/vendors/chart.js/Chart.min.js') }}"></script>
   <script src="{{ asset('assets/vendors/datatables.net/jquery.dataTables.js') }}"></script>

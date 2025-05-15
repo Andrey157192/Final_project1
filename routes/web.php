@@ -11,6 +11,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,7 +83,6 @@ Route::middleware(['auth','role:admin'])->group(function () {
 
     //export
     Route::post('/export-reservasi', [ExportController::class, 'exportReservasi'])->name('export.reservasi');
-
 
     // === Dashboard & General Pages ===
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');

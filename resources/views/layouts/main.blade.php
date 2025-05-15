@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
   <!-- endinject -->
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
 </head>
 <body>
