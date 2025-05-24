@@ -70,7 +70,6 @@ public function rooms(){
     return view('user.pages.rooms',compact('dataRooms'));
 }
 
-
 }
 
 

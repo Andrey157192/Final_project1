@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\DataFeed;
+use Illuminate\Http\Request;
+
+
 
 class DataFeedController extends Controller
 {
