@@ -81,6 +81,99 @@
       border-radius: 4px;
       min-width: 200px;
     }
+
+    .non-admin-text {
+      color: #374151;
+      font-size: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .admin-notice {
+      font-size: 0.875rem;
+      color: #6b7280;
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+
+    .admin-controls {
+      position: relative;
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: #374151;
+    }
+
+    .admin-badge i {
+      font-size: 0.875rem;
+      color: #4b5563;
+    }
+
+    .edit-controls-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 500;
+    }
+
+    .alert-danger {
+      background-color: #FEE2E2;
+      color: #DC2626;
+      border: 1px solid #FCA5A5;
+    }
+
+    .alert i {
+      font-size: 1.25rem;
+    }
+
+    .btn-book {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-book:hover {
+      background: #128C7E;
+    }
+
+    .btn-book[disabled] {
+      background: #9CA3AF;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .btn-book img {
+      width: 24px;
+      height: 24px;
+    }
   </style>
 <body>
   <div class="container">
@@ -115,7 +208,9 @@
         <div class="info-group">
           <h3 class="info-title"><i class="fas fa-bed"></i> Tipe Kamar</h3>
           <div class="room-type-container">
-            <p id="room-type-display">{{ $detail->rooms_type ?? 'Tipe kamar belum tersedia.' }}</p>
+            <p id="room-type-display" class="{{ !Auth::check() || !Auth::user()->hasRole('admin') ? 'non-admin-text' : '' }}">
+                {{ $detail->rooms_type ?? 'Tipe kamar belum tersedia.' }}
+            </p>
             @if(Auth::check() && Auth::user()->hasRole('admin'))
               <div class="admin-controls">
                 <button onclick="toggleEditMode()" class="btn-edit" id="edit-btn">
@@ -125,7 +220,7 @@
                   <form action="{{ route('admin.room.updateType', $detail->id) }}" method="POST" class="inline-form">
                     @csrf
                     @method('PUT')
-                    <input type="text" name="rooms_type" value="{{ $detail->rooms_type }}" class="edit-input">
+                    <input type="text" name="rooms_type" value="{{ $detail->rooms_type }}" class="edit-input" required>
                     <button type="submit" class="btn-save">
                       <i class="fas fa-save"></i> Simpan
                     </button>
@@ -159,12 +254,20 @@
               ->first();
           @endphp
           <div class="room-status-container">
-            <p class="status {{ $currentReservation ? 'text-danger' : 'text-success' }}">
-              <i class="fas fa-{{ $currentReservation ? 'times-circle' : 'check-circle' }}"></i>
-              {{ $currentReservation ? 'Sedang Terisi' : 'Tersedia' }}
-            </p>
+            <div class="status-wrapper">
+              <p class="status {{ $currentReservation ? 'text-danger' : 'text-success' }}">
+                <i class="fas fa-{{ $currentReservation ? 'times-circle' : 'check-circle' }}"></i>
+                {{ $currentReservation ? 'Sedang Terisi' : 'Tersedia' }}
+              </p>
+              @if(!Auth::check() || !Auth::user()->hasRole('admin'))
+                <p class="admin-notice"></p>
+              @endif
+            </div>
             @if(Auth::check() && Auth::user()->hasRole('admin'))
               <div class="admin-controls">
+                <span class="admin-badge">
+                  <i class="fas fa-user-shield"></i> Admin
+                </span>
                 <button onclick="toggleStatusEdit()" class="btn-edit" id="status-edit-btn">
                   <i class="fas fa-edit"></i> Update Status
                 </button>
@@ -172,17 +275,21 @@
                   <form action="{{ route('admin.room.updateStatus', $detail->id) }}" method="POST" class="inline-form">
                     @csrf
                     @method('PUT')
-                    <select name="room_status" class="form-select edit-input">
-                      <option value="available" {{ !$currentReservation ? 'selected' : '' }}>Tersedia</option>
-                      <option value="occupied" {{ $currentReservation ? 'selected' : '' }}>Sedang Terisi</option>
-                      <option value="maintenance">Dalam Perbaikan</option>
-                    </select>
-                    <button type="submit" class="btn-save">
-                      <i class="fas fa-save"></i> Simpan
-                    </button>
-                    <button type="button" onclick="toggleStatusEdit()" class="btn-cancel">
-                      <i class="fas fa-times"></i> Batal
-                    </button>
+                    <div class="edit-controls-wrapper">
+                      <select name="room_status" class="form-select edit-input" required>
+                        <option value="available" {{ !$currentReservation ? 'selected' : '' }}>Tersedia</option>
+                        <option value="occupied" {{ $currentReservation ? 'selected' : '' }}>Sedang Terisi</option>
+                        <option value="maintenance">Dalam Perbaikan</option>
+                      </select>
+                      <div class="button-group">
+                        <button type="submit" class="btn-save">
+                          <i class="fas fa-save"></i> Simpan
+                        </button>
+                        <button type="button" onclick="toggleStatusEdit()" class="btn-cancel">
+                          <i class="fas fa-times"></i> Batal
+                        </button>
+                      </div>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -192,10 +299,17 @@
 
           {{-- Data for WhatsApp Booking --}}
     @if(Auth::check())
+        @if($currentReservation)
+        <div class="alert alert-danger mb-3">
+            <i class="fas fa-exclamation-circle"></i>
+            Maaf, kamar ini sedang terisi. Silakan pilih kamar lain atau cek kembali di lain waktu.
+        </div>
+        @else
         <button onclick="openBookingModal()" class="btn-book">
             <img src="{{ asset('images/whatsapp icon.png') }}" alt="WhatsApp Icon" />
             Book via WhatsApp
         </button>
+        @endif
 
         <!-- Modal -->
         <div id="bookingModal" class="modal">
@@ -484,6 +598,11 @@
       const isUserLoggedIn = {!! json_encode(Auth::check()) !!};
 
       function openBookingModal() {
+          const isRoomOccupied = {{ $currentReservation ? 'true' : 'false' }};
+          if (isRoomOccupied) {
+              alert('Maaf, kamar ini sedang tidak tersedia untuk dipesan.');
+              return;
+          }
           document.getElementById('bookingModal').style.display = 'block';
           document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
       }
