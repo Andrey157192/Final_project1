@@ -10,6 +10,7 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CookieConsentController;
 
 
 /*
@@ -88,9 +89,10 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/home', [AdminController::class, 'home'])->name('admin.home');
     Route::get('/admin/reservation', [AdminController::class, 'reservation'])->name('admin.reservation');
-    Route::get('/admin/contacts', [AdminController::class, 'contacts'])->name('admin.contacts');
-    Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
-    Route::get('/admin/roar', [DashboardController::class, 'index']);
+    
+    // Room management routes
+    Route::put('/admin/room/{id}/update-type', [AdminController::class, 'updateRoomType'])->name('admin.room.updateType');
+    Route::put('/admin/room/{id}/update-status', [AdminController::class, 'updateRoomStatus'])->name('admin.room.updateStatus');
 
     // === Front Pages ===
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
@@ -166,3 +168,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/ratings/{id}/approve', [RatingController::class, 'approve'])->name('admin.ratings.approve');
     Route::delete('/admin/ratings/{id}', [RatingController::class, 'destroy'])->name('admin.ratings.destroy');
 });
+
+// Cookie Consent Routes
+Route::post('/cookie-consent', [CookieConsentController::class, 'store'])->name('cookie.consent.store');
+Route::get('/cookie-consent', [CookieConsentController::class, 'index'])->name('cookie.consent.index');

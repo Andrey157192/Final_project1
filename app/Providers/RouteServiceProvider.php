@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,30 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/';
+
+    /**
+     * Get the route for after login based on user role.
+     */
+    public static function redirectTo()
+    {
+        if (!Auth::check()) {
+            return static::HOME;
+        }
+
+        $user = Auth::user();
+        
+        switch ($user->role) {
+            case 'admin':
+                return '/admin/dashboard';
+            case 'agent':
+                return '/agent/dashboard';
+            case 'staff':
+                return '/dashboard';
+            default:
+                return static::HOME;
+        }
+    }
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

@@ -76,6 +76,18 @@
                accept="image/*" required>
       </div>
 
+      <div class="col-md-4">
+        <label class="form-label">Status Kamar</label>
+        <select name="status" class="form-control @error('status') is-invalid @enderror" required>
+          <option value="available" {{ old('status') == 'available' ? 'selected' : '' }}>Tersedia</option>
+          <option value="occupied" {{ old('status') == 'occupied' ? 'selected' : '' }}>Sedang Terisi</option>
+          <option value="maintenance" {{ old('status') == 'maintenance' ? 'selected' : '' }}>Dalam Perbaikan</option>
+        </select>
+        @error('status')
+          <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+      </div>
+
       <div class="col-12">
         <label class="form-label">Deskripsi Kamar</label>
         <textarea name="description" class="form-control @error('description') is-invalid @enderror" 
@@ -192,6 +204,17 @@
                       type="file"
                       class="form-control"
                     >
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Status Kamar</label>
+                    <select name="status" class="form-control @error('status') is-invalid @enderror" required>
+                      <option value="available" {{ $room->status == 'available' ? 'selected' : '' }}>Tersedia</option>
+                      <option value="occupied" {{ $room->status == 'occupied' ? 'selected' : '' }}>Sedang Terisi</option>
+                      <option value="maintenance" {{ $room->status == 'maintenance' ? 'selected' : '' }}>Dalam Perbaikan</option>
+                    </select>
+                    @error('status')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="col-12">
                     <label class="form-label">Deskripsi</label>

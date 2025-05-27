@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
+use App\Providers\RouteServiceProvider;
 
 class AuthController extends Controller
 {
@@ -24,20 +26,21 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             
-            // Set a session flag for new login to show cookie consent
-            $request->session()->put('show_cookie_consent', true);
-
-            $user = Auth::user();
-
-            if ($user->role === 'admin') {
-                return redirect('/admin/dashboard');
-            } elseif ($user->role === 'user') {
-                return redirect('/');
-            } elseif ($user->role === 'resepsionis') {
-                return redirect('/resepsionis/dashboard');
+            // Set session_token cookie after successful login
+            $sessionToken = $request->session()->token();
+            
+            // Show cookie consent if not previously set and user is not admin
+            if (!$request->cookie('cookie_consent') && Auth::user()->role !== 'admin') {
+                $request->session()->put('show_cookie_consent', true);
+                // Don't set session token until cookie consent is given
+                $response = redirect(RouteServiceProvider::redirectTo());
             } else {
-                return redirect('/index');
+                // Set session token cookie
+                Cookie::queue('session_token', $sessionToken, 60 * 24); // 24 hours
+                $response = redirect(RouteServiceProvider::redirectTo());
             }
+            
+            return $response;
         }
 
         return back()->withErrors([
@@ -45,7 +48,6 @@ class AuthController extends Controller
         ])->withInput();
     }
 
-    // Fungsi Logout
     public function logout(Request $request)
     {
         Auth::logout();
@@ -53,10 +55,13 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/'); // Redirect to home page after logout
+        return redirect('/');
     }
 
-    // Fungsi Register
+    public function registerPage(){
+        return view('auth.register');
+    }
+
     public function register(Request $request)
     {
         // Validasi input
@@ -78,9 +83,5 @@ class AuthController extends Controller
         Auth::login($user);
 
         return redirect('/login');
-    }
-
-    public function registerPage(){
-        return view('auth.register');
     }
 }

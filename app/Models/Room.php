@@ -17,7 +17,8 @@ class Room extends Model
         'picture',
         'rooms_type',
         'description',
-        'created_by'
+        'created_by',
+        'status'
     ];
 
     public function reservasi()

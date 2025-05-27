@@ -15,6 +15,7 @@ use App\Models\HotelView;
 use App\Models\Room;
 use App\Models\Event;
 use App\Models\Reservasi;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -53,6 +54,7 @@ class DashboardController extends Controller
                 'kapasitas'      => 'required|integer|min:1',
                 'description'    => 'required|string',
                 'picture'        => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'status'         => 'required|in:available,occupied,maintenance',
             ]);
 
             Log::info('Data tervalidasi', $data);
@@ -62,26 +64,40 @@ class DashboardController extends Controller
                 return back()->with('error', 'Foto kamar wajib diunggah')->withInput();
             }
 
-            // Upload gambar
+            // Store the image in public storage
             $path = $request->file('picture')->store('rooms', 'public');
             Log::info('Foto tersimpan di: ' . $path);
 
             // Buat record baru
             $room = Room::create([
-                'title'       => $data['title'],
-                'rooms_type'  => $data['rooms_type'],
-                'price'       => $data['price'],
-                'harga_per_malam' => $data['price'],
-                'kapasitas'   => $data['kapasitas'],
-                'description' => $data['description'],
-                'picture'     => $path,
-                'created_by'  => auth()->id() ?? 1
+                'title'          => $data['title'],
+                'rooms_type'     => $data['rooms_type'],
+                'price'          => $data['price'],
+                'harga_per_malam'=> $data['price'],
+                'kapasitas'      => $data['kapasitas'],
+                'description'    => $data['description'],
+                'picture'        => $path,
+                'status'         => $data['status'],
+                'created_by'     => Auth::id(),
             ]);
 
-            Log::info('Kamar berhasil dibuat dengan ID: ' . $room->id);
+            // If status is occupied or maintenance, create a reservation
+            if ($data['status'] === 'occupied' || $data['status'] === 'maintenance') {
+                Reservasi::create([
+                    'created_by' => Auth::id(),
+                    'id_customer' => Auth::id(),
+                    'id_rooms' => $room->id,
+                    'checkIn_date' => now(),
+                    'checkOut_date' => $data['status'] === 'maintenance' ? now()->addDays(7) : now()->addDay(),
+                    'status' => $data['status'],
+                    'nama_customer' => $data['status'] === 'maintenance' ? 'Maintenance' : 'Admin Manual Update'
+                ]);
+            }
 
-            return redirect()->route('admin.rooms.index')->with('success', 'Kamar berhasil ditambahkan.');
-        } catch (\Exception $e) {
+            Log::info('Kamar berhasil ditambahkan');
+            return back()->with('success', 'Kamar berhasil ditambahkan.');
+
+        } catch (QueryException $e) {
             Log::error('Error saat menambah kamar: ' . $e->getMessage());
             Log::error($e->getTraceAsString());
             return back()->with('error', 'Gagal menambahkan kamar: ' . $e->getMessage())->withInput();
@@ -98,16 +114,49 @@ class DashboardController extends Controller
                 'kapasitas'   => 'required|integer|min:1',
                 'description' => 'nullable|string',
                 'photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'status'      => 'required|in:available,occupied,maintenance',
             ]);
 
             // Process uploaded photo if exists
             if ($request->hasFile('photo')) {
                 $path = $request->file('photo')->store('rooms', 'public');
-                $data['picture'] = $path; // Update picture field name to match the database
+                $data['picture'] = $path;
             }
 
             // Update harga_per_malam along with price
             $data['harga_per_malam'] = $data['price'];
+
+            // Handle status change
+            if ($room->status !== $data['status']) {
+                // Cancel existing reservations if changing to available
+                if ($data['status'] === 'available') {
+                    Reservasi::where('id_rooms', $room->id)
+                        ->where('checkIn_date', '<=', now())
+                        ->where('checkOut_date', '>=', now())
+                        ->where('status', '!=', 'cancelled')
+                        ->update(['status' => 'cancelled']);
+                }
+                // Create new reservation if changing to occupied or maintenance
+                elseif (in_array($data['status'], ['occupied', 'maintenance'])) {
+                    $existingReservation = $room->reservasi()
+                        ->where('checkIn_date', '<=', now())
+                        ->where('checkOut_date', '>=', now())
+                        ->where('status', '!=', 'cancelled')
+                        ->first();
+
+                    if (!$existingReservation) {
+                        Reservasi::create([
+                            'created_by' => Auth::id(),
+                            'id_customer' => Auth::id(),
+                            'id_rooms' => $room->id,
+                            'checkIn_date' => now(),
+                            'checkOut_date' => $data['status'] === 'maintenance' ? now()->addDays(7) : now()->addDay(),
+                            'status' => $data['status'],
+                            'nama_customer' => $data['status'] === 'maintenance' ? 'Maintenance' : 'Admin Manual Update'
+                        ]);
+                    }
+                }
+            }
 
             $room->update($data);
             
@@ -322,12 +371,17 @@ class DashboardController extends Controller
         ]);
 
         try {
-            // Create new user as customer (with minimal info)
+            DB::beginTransaction();
+
+            // Create new user as customer with all details
             $customer = User::create([
                 'name'     => $validated['nama_customer'],
                 'email'    => strtolower(str_replace(' ', '', $validated['nama_customer'])) . '@guest.com',
                 'password' => bcrypt('guest123'),
-                'role'     => 'customer'
+                'role'     => 'customer',
+                'nik'      => $request->input('nik'),
+                'address'  => $request->input('address'),
+                'status'   => $request->input('status'),
             ]);
 
             // Create reservation with customer details
@@ -343,9 +397,11 @@ class DashboardController extends Controller
                 'nama_customer'=> $validated['nama_customer']
             ]);
 
+            DB::commit();
             return redirect()->route('reservasi.index')
                              ->with('success', 'Reservasi berhasil ditambahkan.');
-        } catch (QueryException $e) {
+        } catch (Exception $e) {
+            DB::rollBack();
             return back()->with('error', 'Gagal menambahkan reservasi: ' . $e->getMessage());
         }
     }

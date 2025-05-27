@@ -41,8 +41,13 @@
         </div>
 
         @stack('modals')
-
         @livewireScripts
 
+        <!-- Cookie Consent Modal -->
+        @auth
+            @if(session('show_cookie_consent'))
+                @include('components.cookie-consent-modal')
+            @endif
+        @endauth
     </body>
 </html>
